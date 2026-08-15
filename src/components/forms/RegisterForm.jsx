@@ -13,11 +13,13 @@ import {
     Person,
     Sparkles,
 } from "@gravity-ui/icons";
+import { Label, Radio, RadioGroup } from "@heroui/react";
 import { toast } from "react-toastify";
-
-import {  signUp } from "@/lib/auth-client";
+import { signUp } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
+    const router = useRouter();
     // ==========================================================
     // FORM STATE
     // ==========================================================
@@ -27,6 +29,7 @@ export default function RegisterForm() {
         email: "",
         password: "",
         confirmPassword: "",
+        role: "reader", // Default role
     });
 
     // ==========================================================
@@ -38,7 +41,7 @@ export default function RegisterForm() {
     const [loading, setLoading] = useState(false);
 
     // ==========================================================
-    // HANDLE INPUT CHANGE
+    // HANDLE INPUT CHANGE AND ROLE SELECTION
     // ==========================================================
 
     const handleChange = (e) => {
@@ -49,6 +52,13 @@ export default function RegisterForm() {
             [name]: value,
         }));
     };
+    const handleRoleChange = (value) => {
+        console.log("Selected role:", value); // Debugging line
+        setFormData((prev) => ({
+            ...prev,
+            role: value
+        }));
+    };
 
     // ==========================================================
     // FORM SUBMIT
@@ -57,7 +67,9 @@ export default function RegisterForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { name, email, password, confirmPassword } = formData;
+        const { name, email, password, confirmPassword, role } = formData;
+        console.log("Form Data:", formData); // Debugging line
+
 
         // --------------------------------------------------------
         // BASIC FRONTEND VALIDATION
@@ -104,7 +116,8 @@ export default function RegisterForm() {
                 name: name.trim(),
                 email: email.trim(),
                 password,
-                callbackURL: "/login", // Redirect to login after successful registration
+                role: role,
+                callbackURL: "/login", // Redirect to login after successful registration 
             });
 
             // ------------------------------------------------------
@@ -132,15 +145,10 @@ export default function RegisterForm() {
                     email: "",
                     password: "",
                     confirmPassword: "",
+                    role: "reader", // Reset to default role
                 });
 
-                // ----------------------------------------------------
-                // If your Better Auth config uses autoSignIn: false,
-                // you can redirect to login here.
-                //
-                // Example:
-                // window.location.href = "/login";
-                // ----------------------------------------------------
+                router.push("/login"); // Redirect to login page after successful registration
             }
         } catch (error) {
             console.error("Registration error:", error);
@@ -539,6 +547,46 @@ export default function RegisterForm() {
                                         </button>
                                     </div>
                                 </div>
+
+                                {/* =================================================
+                    Role Selection
+                ================================================== */}
+
+                                <div className="flex flex-col gap-4">
+                                    <Label>Select Your Role</Label>
+                                    <RadioGroup 
+                                    value={formData.role} 
+                                    name="role" 
+                                    orientation="horizontal" 
+                                    onChange={handleRoleChange}>
+                                        <Radio value="reader">
+                                            <Radio.Content>
+                                                <Radio.Control>
+                                                    <Radio.Indicator />
+                                                </Radio.Control>
+                                                Reader
+                                            </Radio.Content>
+                                        </Radio>
+                                        <Radio value="writer">
+                                            <Radio.Content>
+                                                <Radio.Control>
+                                                    <Radio.Indicator />
+                                                </Radio.Control>
+                                                Writer
+                                            </Radio.Content>
+                                        </Radio>
+                                        <Radio value="teams">
+                                            <Radio.Content>
+                                                <Radio.Control>
+                                                    <Radio.Indicator />
+                                                </Radio.Control>
+                                                Admin
+                                            </Radio.Content>
+                                        </Radio>
+                                    </RadioGroup>
+                                </div>
+
+
                                 {/* =================================================
                     SUBMIT BUTTON
                 ================================================== */}
