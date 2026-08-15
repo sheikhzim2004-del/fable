@@ -3,17 +3,17 @@
 // প্রয়োজনীয় React hooks এবং Next.js utilities
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 // Animation এর জন্য framer-motion
 import { motion, AnimatePresence } from "framer-motion";
 
-// HeroUI থেকে Button component (শুধু Login/Register বাটনের জন্য)
-import { Button } from "@heroui/react";
-
 // Gravity UI icons — লোগো, হ্যামবার্গার মেনু, রেজিস্টার বাটনের আইকন
-import { Book, Bars, Xmark, Person, BookOpen } from "@gravity-ui/icons";
+import { Bars, Xmark } from "@gravity-ui/icons";
 import Image from "next/image";
+import { signOut, useSession } from "@/lib/auth-client";
+import react from "react";
+import { toast } from "react-toastify";
 
 // নেভিগেশন লিংকগুলোর তালিকা — এখান থেকে লিংক যোগ/বাদ দেওয়া যাবে
 const navLinks = [
@@ -25,6 +25,11 @@ const navLinks = [
 export default function Navbar() {
     // বর্তমান route পাওয়া হচ্ছে active link হাইলাইট করার জন্য
     const pathname = usePathname();
+    const router = useRouter();
+    //get session (userdata) from auth client
+    const { data: session, isPending } = useSession();
+    console.log("Session data in Navbar:", session, "Is session pending:", isPending);
+    const user = session?.user;
 
     // মোবাইল হ্যামবার্গার মেনু খোলা/বন্ধ আছে কিনা তার state
     const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +37,18 @@ export default function Navbar() {
     // কোন লিংকটা এখন active সেটা চেক করার ফাংশন
     const isActive = (href) =>
         href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+    // লগআউট হ্যান্ডলার
+    const handleLogout = async () => {
+        await signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push("/login");
+                    toast.success("Logged out successfully!");
+                },
+            },
+        });
+    };
 
     return (
         // ===== Header wrapper: sticky + blur ব্যাকগ্রাউন্ড =====
@@ -84,15 +101,25 @@ export default function Navbar() {
 
                 {/* ===== ডানপাশের Login/Register বাটন (static, কোনো auth state নেই) ===== */}
                 <div className="hidden items-center gap-3 md:flex">
-                    <Link
-                        href="/login"
-                        className="text-text-secondary"
-                    >
-                        Login
-                    </Link>
+                    {user ?
+                        <>
+                            HI, {user.name}!
+                            <button onClick={handleLogout} className="text-text-secondary cursor-pointer hover:text-text-primary transition-colors hover:border-2 hover:border-brand-primary rounded-md px-4 py-2">
+                                LogOut
+                            </button>
+                        </>
+                        :
+                        <Link
+                            href="/login"
+                            className="text-text-secondary *:hover:text-text-primary transition-colors text-center rounded-md px-4 py-2 cursor-pointer"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Login
+                        </Link>}
                     <Link
                         href="/register"
-                        className="bg-brand-primary rounded-xl px-4 py-2 font-medium text-white"
+                        className="bg-brand-primary rounded-xl px-4 py-2 font-medium text-white hover:bg-brand-primary/90 transition-colors"
+                        onClick={() => setIsOpen(false)}
                     >
                         Register
                     </Link>
@@ -136,16 +163,31 @@ export default function Navbar() {
 
                             {/* মোবাইল ভিউতে Login/Register বাটন */}
                             <div className="mt-3 flex flex-col gap-2 border-t border-border-main pt-3">
-                                <Link
-                                    href="/login"
-                                    className="text-text-secondary"
-                                >
-                                    Login
-                                </Link>
+                                {user ?
+                                    <>
+                                        HI, {user.name}!
+                                        <button
+                                            onClick={() => {
+                                                handleLogout();
+                                                setIsOpen(false);
+                                            }}
+                                            className="text-text-secondary cursor-pointer hover:text-text-primary transition-colors *:hover:border-2 hover:border-brand-primary rounded-md px-4 py-2"
+                                        >
+                                            LogOut
+                                        </button>
+                                    </>
+                                    :
+                                    <Link
+                                        href="/login"
+                                        className="text-text-secondary *:hover:text-text-primary transition-colors text-center rounded-md px-4 py-2"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        Login
+                                    </Link>}
                                 <Link
                                     href="/register"
-                                    className="bg-brand-primary text-white"
-                                    onPress={() => setIsOpen(false)}
+                                    className="bg-brand-primary text-white text-center rounded-xl px-4 py-2 font-medium hover:bg-brand-primary/90 transition-colors"
+                                    onClick={() => setIsOpen(false)}
                                 >
                                     Register
                                 </Link>

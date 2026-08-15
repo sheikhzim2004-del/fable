@@ -104,7 +104,7 @@ export default function RegisterForm() {
                 name: name.trim(),
                 email: email.trim(),
                 password,
-                callbackURL: "/dashboard",
+                callbackURL: "/login", // Redirect to login after successful registration
             });
 
             // ------------------------------------------------------
