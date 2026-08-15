@@ -84,22 +84,18 @@ export default function Navbar() {
 
                 {/* ===== ডানপাশের Login/Register বাটন (static, কোনো auth state নেই) ===== */}
                 <div className="hidden items-center gap-3 md:flex">
-                    <Button
-                        as={Link}
+                    <Link
                         href="/login"
-                        variant="light"
                         className="text-text-secondary"
                     >
                         Login
-                    </Button>
-                    <Button
-                        as={Link}
+                    </Link>
+                    <Link
                         href="/register"
-                        className="bg-brand-primary text-white font-medium"
-                        startContent={<Person className="h-4 w-4" />}
+                        className="bg-brand-primary rounded-xl px-4 py-2 font-medium text-white"
                     >
                         Register
-                    </Button>
+                    </Link>
                 </div>
 
                 {/* ===== মোবাইল হ্যামবার্গার আইকন (শুধু মোবাইলে দেখাবে) ===== */}
@@ -140,23 +136,19 @@ export default function Navbar() {
 
                             {/* মোবাইল ভিউতে Login/Register বাটন */}
                             <div className="mt-3 flex flex-col gap-2 border-t border-border-main pt-3">
-                                <Button
-                                    as={Link}
+                                <Link
                                     href="/login"
-                                    variant="bordered"
-                                    className="border-border-main text-text-primary"
-                                    onPress={() => setIsOpen(false)}
+                                    className="text-text-secondary"
                                 >
                                     Login
-                                </Button>
-                                <Button
-                                    as={Link}
+                                </Link>
+                                <Link
                                     href="/register"
                                     className="bg-brand-primary text-white"
                                     onPress={() => setIsOpen(false)}
                                 >
                                     Register
-                                </Button>
+                                </Link>
                             </div>
                         </div>
                     </motion.div>
