@@ -12,31 +12,45 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Bars, Xmark } from "@gravity-ui/icons";
 import Image from "next/image";
 import { signOut, useSession } from "@/lib/auth-client";
-import react from "react";
 import { toast } from "react-toastify";
 
-// নেভিগেশন লিংকগুলোর তালিকা — এখান থেকে লিংক যোগ/বাদ দেওয়া যাবে
-const navLinks = [
-    { label: "Home", href: "/" },
-    { label: "Browse Ebooks", href: "/ebooks" },
-    { label: "Dashboard", href: "/dashboard" },
-];
+
+
 
 export default function Navbar() {
     // বর্তমান route পাওয়া হচ্ছে active link হাইলাইট করার জন্য
     const pathname = usePathname();
     const router = useRouter();
-    //get session (userdata) from auth client
     const { data: session, isPending } = useSession();
-    console.log("Session data in Navbar:", session, "Is session pending:", isPending);
+    // console.log("Session data in Navbar:", session, "Is session pending:", isPending);
     const user = session?.user;
+    const role = user?.role;
+    
+
+    const dashboardRoutes = role === "admin" ? "/dashboard/admin" : role === "writer" ? "/dashboard/writer" : role === "reader" ? "/dashboard/reader" : "/login";
+    // নেভিগেশন লিংকগুলোর তালিকা — এখান থেকে লিংক যোগ/বাদ দেওয়া যাবে
+    const navLinks = [
+        { label: "Home", href: "/" },
+        { label: "Browse Ebooks", href: "/ebooks" },
+        { label: "Dashboard", href: dashboardRoutes },
+    ];
+
 
     // মোবাইল হ্যামবার্গার মেনু খোলা/বন্ধ আছে কিনা তার state
     const [isOpen, setIsOpen] = useState(false);
 
+
+
+    //dashboard route এ গেলে navbar হাইড করার জন্য চেক
+    if (pathname.includes("dashboard")) {
+        return null;
+    }
+
+
     // কোন লিংকটা এখন active সেটা চেক করার ফাংশন
     const isActive = (href) =>
         href === "/" ? pathname === "/" : pathname.startsWith(href);
+
 
     // লগআউট হ্যান্ডলার
     const handleLogout = async () => {

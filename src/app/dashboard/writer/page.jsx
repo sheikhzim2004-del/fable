@@ -1,11 +1,17 @@
+'use client'
+import { useSession } from '@/lib/auth-client';
 import React from 'react';
 
-const writer = () => {
+const WriterDashboardHomePage = () => {
+
+    const {data: session, isPending} = useSession()
+    console.log(session)
+
     return (
         <div>
-            <h2>Writer Dashboard</h2>
+            <h2 className='text-4xl'>Wellcome Back, {session?.user?.name}!</h2>
         </div>
     );
 };
 
-export default writer;
+export default WriterDashboardHomePage;

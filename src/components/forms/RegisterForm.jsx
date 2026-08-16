@@ -111,19 +111,19 @@ export default function RegisterForm() {
             // ======================================================
             // BETTER AUTH SIGN UP
             // ======================================================
-
             const { data, error } = await signUp.email({
                 name: name.trim(),
                 email: email.trim(),
                 password,
                 role: role,
+                plan: "free", // Default plan for new users
                 callbackURL: "/login", // Redirect to login after successful registration 
             });
 
             // ------------------------------------------------------
             // BETTER AUTH ERROR
             // ------------------------------------------------------
-
+            
             if (error) {
                 toast.error(
                     error.message || "Unable to create your account."
@@ -623,7 +623,7 @@ export default function RegisterForm() {
                                         href="/login"
                                         className="font-bold text-[var(--primary)] transition-colors hover:text-[var(--secondary)]"
                                     >
-                                        Sign in
+                                        Login
                                     </Link>
                                 </p>
                             </div>

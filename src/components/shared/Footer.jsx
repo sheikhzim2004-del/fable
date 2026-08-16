@@ -3,12 +3,12 @@
 import Link from "next/link";
 import {
     ArrowUp,
-    BookOpen,
     Envelope,
     Heart,
 } from "@gravity-ui/icons";
 import Image from "next/image";
-import {LogoFacebook} from '@gravity-ui/icons';
+import { usePathname } from "next/navigation";
+
 
 // ============================================================
 // FOOTER QUICK LINKS
@@ -91,13 +91,13 @@ function TwitterIcon() {
 // ============================================================
 
 export default function Footer() {
+    const pathname = usePathname();
 
-    // ----------------------------------------------------------
-    // NEWSLETTER SUBMIT
-    // Frontend only.
-    // Currently prevents page refresh.
-    // Later you can connect this with your backend/API.
-    // ----------------------------------------------------------
+    //dashboard route এ গেলে footer হাইড করার জন্য চেক
+    if (pathname.includes("dashboard")) {
+        return null;
+    }
+
 
     const handleNewsletterSubmit = (e) => {
         e.preventDefault();
