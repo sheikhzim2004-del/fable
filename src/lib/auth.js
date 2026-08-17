@@ -21,7 +21,7 @@ export const auth = betterAuth({
         enabled: true,
     },
     database: mongodbAdapter(db, {
-        client: await clientPromise
+        client: await clientPromise,
     }),
     user: {
         additionalFields: {

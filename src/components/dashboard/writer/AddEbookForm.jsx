@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { creatBook } from "@/lib/actions/books";
+import { toast } from "react-toastify";
 import { Book, Picture, CircleDollar, Tag, ArrowUpFromLine } from "@gravity-ui/icons";
 
 import {
@@ -16,6 +18,7 @@ import {
     Button,
     FieldError,
 } from "@heroui/react";
+
 
 const genres = [
     {
@@ -41,15 +44,18 @@ const genres = [
 ];
 
 export default function AddEbookForm() {
-    const [formData, setFormData] = useState({
+
+    const initialFormData = {
         title: "",
         description: "",
         price: "",
         genre: "",
         coverImage: "",
-    });
+    };
 
+    const [formData, setFormData] = useState(initialFormData);
     const [imageUploading, setImageUploading] = useState(false);
+
 
     const handleChange = (key, value) => {
         setFormData((prev) => ({
@@ -60,44 +66,32 @@ export default function AddEbookForm() {
 
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
-
         if (!file) return;
+
+        // instant local preview
+        const preview = URL.createObjectURL(file);
+        setFormData(prev => ({ ...prev, coverImage: preview }));
 
         try {
             setImageUploading(true);
 
             const imageData = new FormData();
-
             imageData.append("image", file);
 
-            // imgBB API integration here
-
-            /*
             const res = await fetch(
-              `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
-              {
-                method:"POST",
-                body:imageData
-              }
+                `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
+                { method: "POST", body: imageData }
             );
-      
-      
+
             const data = await res.json();
-      
-      
-            setFormData(prev=>({
-                ...prev,
-                coverImage:data.data.url
-            }));
-      
-            */
 
-            // temporary preview
-            const preview = URL.createObjectURL(file);
+            if (!data.success) {
+                throw new Error("Image upload failed");
+            }
 
-            setFormData((prev) => ({
+            setFormData(prev => ({
                 ...prev,
-                coverImage: preview,
+                coverImage: data.data.url,
             }));
         } catch (error) {
             console.log(error);
@@ -106,10 +100,21 @@ export default function AddEbookForm() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (imageUploading) {
+            toast("Please wait, image is still uploading...")
+            return;
+        }
+
         console.log(formData);
+
+        const res = await creatBook(formData);
+        if (res.insertedId) {
+            toast.success("Book posted successfully!")
+            setFormData(initialFormData);
+        }
     };
 
     return (
