@@ -1,11 +1,9 @@
-import React from 'react';
+import AddEbookForm from "@/components/dashboard/writer/AddEbookForm";
 
-const WriterEbooksAddPage = () => {
+export default function AddEbookPage() {
     return (
-        <div>
-            <h1>Writer Ebooks Add</h1>
-        </div>
+        <section className="p-5 md:p-8 bg-bg-primary min-h-screen">
+            <AddEbookForm />
+        </section>
     );
-};
-
-export default WriterEbooksAddPage;
+}

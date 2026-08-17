@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import {
     BookOpen,
     Gear,
-    House,
     Magnifier,
     Person,
     LayoutSideContentLeft,
@@ -27,14 +26,6 @@ const DashboardSidebar = () => {
     const user = session?.user;
     const role = user?.role;
 
-    // const navItems = [
-    //     { icon: House, label: "Dashboard", href: "/dashboard" },
-    //     { icon: Magnifier, label: "Explore Books", href: "/dashboard/explore" },
-    //     { icon: Bell, label: "Notifications", href: "/dashboard/notifications" },
-    //     { icon: Envelope, label: "Messages", href: "/dashboard/messages" },
-    //     { icon: Person, label: "Profile", href: "/dashboard/profile" },
-    //     { icon: Gear, label: "Settings", href: "/dashboard/settings" },
-    // ];
 
     const navItemsByRole = {
 
@@ -103,7 +94,7 @@ const DashboardSidebar = () => {
             {/* Desktop Sidebar */}
             <aside className="hidden lg:flex w-64 shrink-0 min-h-screen flex-col border-r border-[var(--border-color)] bg-[var(--bg-secondary)] p-5">
                 {/* Logo */}
-                <Link href="/dashboard" className="flex items-center gap-3 mb-8">
+                <Link href="/" className="flex items-center gap-3 mb-8">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--primary)] text-white">
                         <BookOpen className="h-6 w-6" />
                     </div>
