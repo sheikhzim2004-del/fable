@@ -1,17 +1,28 @@
-'use client'
-import { useSession } from '@/lib/auth-client';
-import React from 'react';
+import TotalEbooks from "@/components/dashboard/writer/TotalEbooks";
+import PublishedEbooks from "@/components/dashboard/writer/PublishedEbooks";
+import UnpublishedEbooks from "@/components/dashboard/writer/UnpublishedEbooks";
+import TotalSales from "@/components/dashboard/writer/TotalSales";
+import RecentEbooks from "@/components/dashboard/writer/RecentEbooks";
+import RecentSales from "@/components/dashboard/writer/RecentSales";
 
-const WriterDashboardHomePage = () => {
+export default function WriterDashboard() {
+  return (
+    <div className="space-y-6 mx-4">
+      <h1 className="text-3xl font-bold text-text-primary text-center mt-4">
+        Writer Dashboard
+      </h1>
 
-    const {data: session, isPending} = useSession()
-    console.log(session)
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+        <TotalEbooks />
+        <PublishedEbooks />
+        <UnpublishedEbooks />
+        <TotalSales />
+      </div>
 
-    return (
-        <div>
-            <h2 className='text-4xl'>Wellcome Back, {session?.user?.name}!</h2>
-        </div>
-    );
-};
-
-export default WriterDashboardHomePage;
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+        <RecentEbooks />
+        <RecentSales />
+      </div>
+    </div>
+  );
+}
