@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { creatBook } from "@/lib/actions/books";
 import { toast } from "react-toastify";
 import { ArrowUpFromLine } from "@gravity-ui/icons";
+import { useRouter } from "next/navigation";
 
 import {
     Form,
@@ -18,10 +18,9 @@ import {
     Button,
     FieldError,
 } from "@heroui/react";
+
 import Image from "next/image";
-import { authClient } from "@/lib/auth-client";
-
-
+import { updateBook } from "@/lib/actions/books";
 
 const genres = [
     {
@@ -46,23 +45,19 @@ const genres = [
     },
 ];
 
-export default function AddEbookForm() {
-    const { data: session } = authClient.useSession();
-    console.log(session)
+export default function UpdateEbookForm({ book }) {
+    const router = useRouter();
 
+    const [formData, setFormData] = useState({
+        title: book.title || "",
+        description: book.description || "",
+        price: book.price || "",
+        genre: book.genre || "",
+        coverImage: book.coverImage || "",
+    });
 
-
-    const initialFormData = {
-        title: "",
-        description: "",
-        price: "",
-        genre: "",
-        coverImage: "",
-    };
-
-    const [formData, setFormData] = useState(initialFormData);
     const [imageUploading, setImageUploading] = useState(false);
-
+    const [updating, setUpdating] = useState(false);
 
     const handleChange = (key, value) => {
         setFormData((prev) => ({
@@ -73,11 +68,15 @@ export default function AddEbookForm() {
 
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
+
         if (!file) return;
 
-        // instant local preview
         const preview = URL.createObjectURL(file);
-        setFormData(prev => ({ ...prev, coverImage: preview }));
+
+        setFormData((prev) => ({
+            ...prev,
+            coverImage: preview,
+        }));
 
         try {
             setImageUploading(true);
@@ -87,7 +86,10 @@ export default function AddEbookForm() {
 
             const res = await fetch(
                 `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_KEY}`,
-                { method: "POST", body: imageData }
+                {
+                    method: "POST",
+                    body: imageData,
+                }
             );
 
             const data = await res.json();
@@ -96,12 +98,13 @@ export default function AddEbookForm() {
                 throw new Error("Image upload failed");
             }
 
-            setFormData(prev => ({
+            setFormData((prev) => ({
                 ...prev,
                 coverImage: data.data.url,
             }));
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            toast.error("Image upload failed");
         } finally {
             setImageUploading(false);
         }
@@ -109,35 +112,43 @@ export default function AddEbookForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
 
-        if ( !formData.title || !formData.description || !formData.price || !formData.genre || !formData.coverImage) {
+        if (
+            !formData.title ||
+            !formData.description ||
+            !formData.price ||
+            !formData.genre ||
+            !formData.coverImage
+        ) {
             toast.error("Please fill all fields");
             return;
         }
 
         if (imageUploading) {
-            toast("Please wait, image is still uploading...")
+            toast.error("Please wait, image is still uploading...");
             return;
         }
 
+        try {
+            setUpdating(true);
 
+            const res = await updateBook(book._id, formData);
 
-        const bookData = {
-            ...formData,
-            status: "unpublished",
-            createdAt: new Date(),
-            writerId: session?.user?.id,
-        };
+            if (res.error) {
+                toast.error(res.error);
+                return;
+            }
 
-        console.log("bookdata", bookData);
-        const res = await creatBook(bookData);
+            toast.success("Ebook updated successfully!");
 
-        if (res.insertedId) {
-            toast.success("Book posted successfully!")
-            setFormData(initialFormData);
+            router.push("/dashboard/writer/ebooks");
+            router.refresh();
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to update ebook");
+        } finally {
+            setUpdating(false);
         }
-        
     };
 
     return (
@@ -152,15 +163,13 @@ export default function AddEbookForm() {
             }}
             className="mx-auto max-w-4xl rounded-3xl border border-border-color bg-bg-secondary p-6 shadow-xl"
         >
-            {/* Header */}
-
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-text-primary">
-                    Add New Ebook
+                    Update Ebook
                 </h1>
 
                 <p className="mt-2 text-text-secondary">
-                    Share your knowledge with readers around the world.
+                    Update your ebook information and cover image.
                 </p>
             </div>
 
@@ -168,12 +177,12 @@ export default function AddEbookForm() {
                 <Fieldset>
                     <Fieldset.Legend>Ebook Information</Fieldset.Legend>
 
-                    {/* Title */}
-
                     <TextField
                         isRequired
                         value={formData.title}
-                        onChange={(value) => handleChange("title", value)}
+                        onChange={(value) =>
+                            handleChange("title", value)
+                        }
                     >
                         <Label>Ebook Title</Label>
 
@@ -182,12 +191,12 @@ export default function AddEbookForm() {
                         <FieldError />
                     </TextField>
 
-                    {/* Description */}
-
                     <TextField
                         isRequired
                         value={formData.description}
-                        onChange={(value) => handleChange("description", value)}
+                        onChange={(value) =>
+                            handleChange("description", value)
+                        }
                     >
                         <Label>Full Description</Label>
 
@@ -199,24 +208,27 @@ export default function AddEbookForm() {
                         <FieldError />
                     </TextField>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        {/* Price */}
-
+                    <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                         <TextField
                             isRequired
-                            value={formData.price}
-                            onChange={(value) => handleChange("price", value)}
+                            value={String(formData.price)}
+                            onChange={(value) =>
+                                handleChange("price", value)
+                            }
                         >
                             <Label>Price ($)</Label>
 
-                            <Input type="number" placeholder="10" />
+                            <Input
+                                type="number"
+                                placeholder="10"
+                            />
                         </TextField>
-
-                        {/* Genre */}
 
                         <Select
                             selectedKey={formData.genre}
-                            onSelectionChange={(value) => handleChange("genre", value)}
+                            onSelectionChange={(value) =>
+                                handleChange("genre", value)
+                            }
                         >
                             <Label>Genre</Label>
 
@@ -227,7 +239,10 @@ export default function AddEbookForm() {
                             <Select.Popover>
                                 <ListBox>
                                     {genres.map((genre) => (
-                                        <ListBox.Item key={genre.id} id={genre.id}>
+                                        <ListBox.Item
+                                            key={genre.id}
+                                            id={genre.id}
+                                        >
                                             {genre.label}
                                         </ListBox.Item>
                                     ))}
@@ -237,8 +252,6 @@ export default function AddEbookForm() {
                     </div>
                 </Fieldset>
 
-                {/* Cover Image */}
-
                 <Fieldset>
                     <Fieldset.Legend>Cover Image</Fieldset.Legend>
 
@@ -246,7 +259,7 @@ export default function AddEbookForm() {
                         <ArrowUpFromLine className="h-8 w-8 text-brand-primary" />
 
                         <span className="mt-3 text-sm text-text-secondary">
-                            Upload Ebook Cover
+                            Change Ebook Cover
                         </span>
 
                         <input
@@ -262,21 +275,36 @@ export default function AddEbookForm() {
                             height={400}
                             width={300}
                             src={formData.coverImage}
-                            alt="preview"
+                            alt="Ebook cover preview"
                             className="mt-5 h-48 w-36 rounded-xl object-cover"
                         />
                     )}
                 </Fieldset>
 
-                {/* Submit */}
+                <div className="flex gap-3">
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        onPress={() =>
+                            router.push("/dashboard/writer/ebooks")
+                        }
+                        className="w-full rounded-xl py-3"
+                    >
+                        Cancel
+                    </Button>
 
-                <Button
-                    type="submit"
-                    disabled={imageUploading}
-                    className="w-full rounded-xl bg-brand-primary py-3 font-semibold text-white hover:opacity-90"
-                >
-                    {imageUploading ? "Uploading..." : "Create Ebook"}
-                </Button>
+                    <Button
+                        type="submit"
+                        disabled={imageUploading || updating}
+                        className="w-full rounded-xl bg-brand-primary py-3 font-semibold text-white hover:opacity-90"
+                    >
+                        {updating
+                            ? "Updating..."
+                            : imageUploading
+                                ? "Uploading..."
+                                : "Update Ebook"}
+                    </Button>
+                </div>
             </Form>
         </motion.div>
     );

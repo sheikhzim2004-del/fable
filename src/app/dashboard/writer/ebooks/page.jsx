@@ -1,19 +1,15 @@
 import ManageEbooks from '@/components/dashboard/ManageEbooks';
-import { getBooks } from '@/lib/api/books';
-import React from 'react';
+import { getBooksByWriter } from '@/lib/api/books';
+import { auth } from '@/lib/auth'; // actual auth setup path
+import { headers } from 'next/headers';
 
-const WriterEbooksPage = async() => {
+const WriterEbooksPage = async () => {
+    const session = await auth.api.getSession({ headers: await headers() });
+    const books = await getBooksByWriter(session?.user?.id);
 
-    const bookId = "book_123"
-    const books = await getBooks(bookId)
-    console.log("books", books)
-    return <ManageEbooks books={books}></ManageEbooks>
+    // console.log("books:", JSON.stringify(books, null, 2));
 
-    return (
-        <div>
-            <h1>Writer Ebooks</h1>
-        </div>
-    );
+    return <ManageEbooks books={books ?? []} />;
 };
 
 export default WriterEbooksPage;
