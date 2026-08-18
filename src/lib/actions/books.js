@@ -3,14 +3,14 @@
 
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export const creatBook = async (newBookData) => {
+export const creatBook = async (bookData) => {
     try {
         const res = await fetch(`${baseUrl}/api/books`, {
             method: "POST",
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(newBookData)
+            body: JSON.stringify(bookData)
         })
 
         return res.json();
@@ -19,3 +19,7 @@ export const creatBook = async (newBookData) => {
         return { error: error.message || "Something went wrong" };
     }
 }
+
+
+
+//mutation data in next doc web

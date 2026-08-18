@@ -18,6 +18,7 @@ import {
     Button,
     FieldError,
 } from "@heroui/react";
+import Image from "next/image";
 
 
 const genres = [
@@ -103,18 +104,33 @@ export default function AddEbookForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if ( !formData.title || !formData.description || !formData.price || !formData.genre || !formData.coverImage) {
+            toast.error("Please fill all fields");
+            return;
+        }
+
         if (imageUploading) {
             toast("Please wait, image is still uploading...")
             return;
         }
 
-        console.log(formData);
 
-        const res = await creatBook(formData);
+
+        const bookData = {
+            ...formData,
+            status: "unpublished",
+            createdAt: new Date(),
+            bookId: "book_123"
+        };
+
+        console.log("bookdata", bookData);
+        const res = await creatBook(bookData);
+
         if (res.insertedId) {
             toast.success("Book posted successfully!")
             setFormData(initialFormData);
         }
+        
     };
 
     return (
@@ -235,7 +251,9 @@ export default function AddEbookForm() {
                     </label>
 
                     {formData.coverImage && (
-                        <img
+                        <Image
+                            height={400}
+                            width={300}
                             src={formData.coverImage}
                             alt="preview"
                             className="mt-5 h-48 w-36 rounded-xl object-cover"
