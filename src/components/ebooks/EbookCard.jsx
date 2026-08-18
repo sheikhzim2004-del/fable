@@ -58,10 +58,12 @@ export default function EbookCard({ book, isSold = false }) {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="h-full"
         >
-            <Card className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border-color bg-bg-secondary transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10">
+            <Card className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border-color bg-bg-secondary transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 p-0 sm:p-4">
 
                 {/* === Visual & Badges === */}
-                <div className="relative aspect-[3/4] w-full overflow-hidden bg-bg-primary">
+                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-bg-primary shadow-[4px_6px_12px_rgba(0,0,0,0.4),8px_12px_24px_rgba(0,0,0,0.10)] border-r-2 border-b-2 border-white/10 transition-transform duration-300 group-hover:-rotate-1 group-hover:scale-[1.02]">
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-black/40 via-black/10 to-transparent z-10" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/10 z-10"    />
                     <Image
                         src={coverImage || "https://i.ibb.co/Y7QQM9w7/300px.jpg"}
                         alt={title}
