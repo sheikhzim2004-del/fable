@@ -6,6 +6,7 @@ export const getBooks = async (bookId, status = "unpublished") => {
     return res.json();
 }
 
+
 export const getBooksByWriter = async (writerId) => {
     try {
         const res = await fetch(`${baseUrl}/api/books?writerId=${writerId}`, { cache: "no-store" });
@@ -17,7 +18,7 @@ export const getBooksByWriter = async (writerId) => {
     }
 };
 
-
+//id wise book fetch function
 export const getBookById = async (id) => {
     try {
         const res = await fetch(`${baseUrl}/api/books/${id}`, {
@@ -36,6 +37,7 @@ export const getBookById = async (id) => {
 };
 
 
+//id wise book delete fetch function
 export const deleteBook = async (id) => {
     try {
         const res = await fetch(`${baseUrl}/api/books/${id}`, {
@@ -54,5 +56,23 @@ export const deleteBook = async (id) => {
         return {
             error: error.message || "Something went wrong"
         };
+    }
+};
+
+//all books fetch 
+export const getAllBooks = async () => {
+    try {
+        const res = await fetch(`${baseUrl}/api/books`, {
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch books: ${res.status}`);
+        }
+
+        return res.json();
+    } catch (error) {
+        console.error("Error fetching all books:", error);
+        return [];
     }
 };
