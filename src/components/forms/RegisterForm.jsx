@@ -16,10 +16,17 @@ import {
 import { Label, Radio, RadioGroup } from "@heroui/react";
 import { toast } from "react-toastify";
 import { signUp } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function RegisterForm() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectUrl = searchParams.get("redirect") || "/";
+
+    // যদি redirect পাথ থাকে তবে সেটি লগইন লিঙ্কে যোগ হবে, না থাকলে শুধু /login
+    const loginLink = redirectUrl
+        ? `/login?redirect=${encodeURIComponent(redirectUrl)}`
+        : "/login";
     // ==========================================================
     // FORM STATE
     // ==========================================================
@@ -117,13 +124,12 @@ export default function RegisterForm() {
                 password,
                 role: role,
                 plan: "free", // Default plan for new users
-                callbackURL: "/login", // Redirect to login after successful registration 
             });
 
             // ------------------------------------------------------
             // BETTER AUTH ERROR
             // ------------------------------------------------------
-            
+
             if (error) {
                 toast.error(
                     error.message || "Unable to create your account."
@@ -148,7 +154,7 @@ export default function RegisterForm() {
                     role: "reader", // Reset to default role
                 });
 
-                router.push("/login"); // Redirect to login page after successful registration
+                router.push(redirectUrl); // Redirect to login page after successful registration
             }
         } catch (error) {
             console.error("Registration error:", error);
@@ -554,11 +560,11 @@ export default function RegisterForm() {
 
                                 <div className="flex flex-col gap-4">
                                     <Label>Select Your Role</Label>
-                                    <RadioGroup 
-                                    value={formData.role} 
-                                    name="role" 
-                                    orientation="horizontal" 
-                                    onChange={handleRoleChange}>
+                                    <RadioGroup
+                                        value={formData.role}
+                                        name="role"
+                                        orientation="horizontal"
+                                        onChange={handleRoleChange}>
                                         <Radio value="reader">
                                             <Radio.Content>
                                                 <Radio.Control>
@@ -620,7 +626,7 @@ export default function RegisterForm() {
                                 <p className="text-sm text-[var(--text-secondary)]">
                                     Already have an account?{" "}
                                     <Link
-                                        href="/login"
+                                        href={loginLink}
                                         className="font-bold text-[var(--primary)] transition-colors hover:text-[var(--secondary)]"
                                     >
                                         Login

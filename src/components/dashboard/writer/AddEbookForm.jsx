@@ -125,7 +125,7 @@ export default function AddEbookForm() {
 
         const bookData = {
             ...formData,
-            status: "unpublished",
+            status: "published",
             createdAt: new Date(),
             writerId: session?.user?.id,
         };

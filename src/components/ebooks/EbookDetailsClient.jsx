@@ -1,3 +1,4 @@
+// src/components/ebooks/EbookDetailsClient.jsx
 "use client";
 
 import { useState } from "react";
@@ -15,7 +16,7 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
 
     // কন্ডিশনাল চেকিং
     const isOwner = currentUser?.id && currentUser?.id === book?.writerId;
-    const isSold = book?.status === "sold" || isPurchased;
+    const isSold = book?.status === "unpublished" || isPurchased;
 
     const handleBookmark = () => {
         if (!currentUser) {

@@ -13,8 +13,14 @@ import {
 } from "@gravity-ui/icons";
 import { toast } from "react-toastify";
 import { signIn } from "@/lib/auth-client";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
+
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectUrl = searchParams.get("redirect") || "/";
+
     // ==========================================
     // FORM STATE
     // ==========================================
@@ -64,7 +70,7 @@ export default function LoginForm() {
             const { data, error } = await signIn.email({
                 email: email.trim(),
                 password,
-                callbackURL: "/",
+                // callbackURL: "/",
             });
 
             if (error) {
@@ -74,6 +80,7 @@ export default function LoginForm() {
 
             if (data) {
                 toast.success("Login successful!");
+                router.push(redirectUrl)
             }
         } catch (error) {
             toast.error(error?.message || "Something went wrong.");
@@ -204,7 +211,7 @@ export default function LoginForm() {
                             <div className="mt-7 text-center text-sm text-[var(--text-secondary)]">
                                 New to Feble?
                                 <Link
-                                    href="/register"
+                                    href={`/register?redirect=${redirectUrl}`}
                                     className="ml-1 font-bold text-[var(--primary)] hover:text-[var(--secondary)]"
                                 >
                                     Create account

@@ -1,7 +1,7 @@
 
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export const getBooks = async (bookId, status = "unpublished") => {
+export const getBooks = async (bookId, status = "published") => {
     const res = await fetch(`${baseUrl}/api/books?bookId=${bookId}&status=${status}`);
     return res.json();
 }

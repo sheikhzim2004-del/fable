@@ -1,12 +1,13 @@
-// src/app/(public)/ebooks/[id]/page.jsx
 import Link from "next/link";
 import { ArrowLeft, BookOpen } from "@gravity-ui/icons";
 import { getBookById } from "@/lib/api/books";
 import EbookDetailsClient from "@/components/ebooks/EbookDetailsClient";
+import { getUserSession } from "@/lib/session";
 
 export default async function EbookDetailsPage({ params }) {
     const { id } = await params;
     const book = await getBookById(id);
+    const user = await getUserSession();
 
     // Error State: "Ebook not found" for invalid ID
     if (!book || !book._id) {
@@ -33,7 +34,7 @@ export default async function EbookDetailsPage({ params }) {
     return (
         <EbookDetailsClient
             book={book}
-            currentUser={null} // সেশন/auth হ্যান্ডেলিং যুক্ত থাকলে পাস korte hobe (যেমন: session?.user)
+            currentUser={user || null} // সেশন/auth হ্যান্ডেলিং যুক্ত থাকলে পাস করবেন (যেমন: session?.user)
             isPurchased={false}
         />
     );
