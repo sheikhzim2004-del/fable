@@ -5,13 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Card, Button, Chip } from "@heroui/react";
-import { ShoppingBag, Eye, Lock } from "@gravity-ui/icons";
+import { Eye, Lock } from "@gravity-ui/icons";
 import { toast } from "react-toastify";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function EbookCard({ book, isSold = false }) {
-    const router = useRouter();
-    const { user } = useAuth() || { user: null };
 
     const {
         _id,
@@ -30,25 +28,7 @@ export default function EbookCard({ book, isSold = false }) {
         year: "numeric",
     });
 
-    const handlePurchase = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
 
-        if (!user) {
-            toast.info("Please login to purchase this ebook", {
-                icon: <Lock className="text-secondary" />,
-            });
-            router.push(`/login?redirect=/ebooks/${_id}`);
-            return;
-        }
-
-        if (isSold) {
-            toast.warning("This book has already been purchased.");
-            return;
-        }
-
-        router.push(`/checkout/${_id}`);
-    };
 
     return (
         <motion.div
@@ -62,8 +42,8 @@ export default function EbookCard({ book, isSold = false }) {
 
                 {/* === Visual & Badges === */}
                 <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-bg-primary shadow-[4px_6px_12px_rgba(0,0,0,0.4),8px_12px_24px_rgba(0,0,0,0.10)] border-r-2 border-b-2 border-white/10 transition-transform duration-300 group-hover:-rotate-1 group-hover:scale-[1.02]">
-                <div className="pointer-events-none absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-black/40 via-black/10 to-transparent z-10" />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/10 z-10"    />
+                    <div className="pointer-events-none absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-black/40 via-black/10 to-transparent z-10" />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-white/10 z-10" />
                     <Image
                         src={coverImage || "https://i.ibb.co/Y7QQM9w7/300px.jpg"}
                         alt={title}
@@ -137,18 +117,13 @@ export default function EbookCard({ book, isSold = false }) {
                         </span>
                     </div>
 
-                    <Button
-                        size="sm"
-                        onPress={handlePurchase}
-                        disabled={isSold}
-                        className={`gap-1.5 rounded-xl font-semibold transition-all ${isSold
-                                ? "bg-bg-primary text-text-secondary opacity-60 cursor-not-allowed"
-                                : "bg-primary text-white shadow-md shadow-primary/20 hover:opacity-95"
-                            }`}
+                    <Link
+                        href={`/ebooks/${book?._id}`}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-primary/90  hover:bg-brand-primary text-white transition-all shadow-sm"
                     >
-                        <ShoppingBag className="size-3.5" />
-                        <span>{isSold ? "Unavailable" : "Buy Now"}</span>
-                    </Button>
+                        <Eye className="size-3.5" />
+                        <span>View Details</span>
+                    </Link>
                 </Card.Footer>
             </Card>
         </motion.div>
