@@ -54,6 +54,7 @@ export default function AddEbookForm() {
 
     const initialFormData = {
         title: "",
+        writerName: "",
         description: "",
         price: "",
         genre: "",
@@ -111,7 +112,7 @@ export default function AddEbookForm() {
         e.preventDefault();
         
 
-        if ( !formData.title || !formData.description || !formData.price || !formData.genre || !formData.coverImage) {
+        if ( !formData.title || !formData.writerName || !formData.description || !formData.price || !formData.genre || !formData.coverImage) {
             toast.error("Please fill all fields");
             return;
         }
@@ -178,6 +179,20 @@ export default function AddEbookForm() {
                         <Label>Ebook Title</Label>
 
                         <Input placeholder="Enter ebook title" />
+
+                        <FieldError />
+                    </TextField>
+
+                    {/* Writer Name */}
+
+                    <TextField
+                        isRequired
+                        value={formData.writerName}
+                        onChange={(value) => handleChange("writerName", value)}
+                    >
+                        <Label>Writer Name</Label>
+
+                        <Input placeholder="Enter your name" />
 
                         <FieldError />
                     </TextField>

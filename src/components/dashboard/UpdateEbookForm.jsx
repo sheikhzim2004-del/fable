@@ -50,6 +50,7 @@ export default function UpdateEbookForm({ book }) {
 
     const [formData, setFormData] = useState({
         title: book.title || "",
+        writerName: book.writerName || "",
         description: book.description || "",
         price: book.price || "",
         genre: book.genre || "",
@@ -115,6 +116,7 @@ export default function UpdateEbookForm({ book }) {
 
         if (
             !formData.title ||
+            !formData.writerName ||
             !formData.description ||
             !formData.price ||
             !formData.genre ||
@@ -187,6 +189,20 @@ export default function UpdateEbookForm({ book }) {
                         <Label>Ebook Title</Label>
 
                         <Input placeholder="Enter ebook title" />
+
+                        <FieldError />
+                    </TextField>
+
+                    <TextField
+                        isRequired
+                        value={formData.writerName}
+                        onChange={(value) =>
+                            handleChange("writerName", value)
+                        }
+                    >
+                        <Label>Writer Name</Label>
+
+                        <Input placeholder="Enter your name" />
 
                         <FieldError />
                     </TextField>
