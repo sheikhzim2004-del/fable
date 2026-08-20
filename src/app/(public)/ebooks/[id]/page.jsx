@@ -3,11 +3,15 @@ import { ArrowLeft, BookOpen } from "@gravity-ui/icons";
 import { getBookById } from "@/lib/api/books";
 import EbookDetailsClient from "@/components/ebooks/EbookDetailsClient";
 import { getUserSession } from "@/lib/session";
+import { checkPurchaseStatus } from "@/lib/actions/payment";
 
 export default async function EbookDetailsPage({ params }) {
     const { id } = await params;
     const book = await getBookById(id);
     const user = await getUserSession();
+
+    // function ta call kore status newa hosse
+    const isPurchased = user?.id ? await checkPurchaseStatus(user.id, id) : false;
 
     // Error State: "Ebook not found" for invalid ID
     if (!book || !book._id) {
@@ -35,7 +39,7 @@ export default async function EbookDetailsPage({ params }) {
         <EbookDetailsClient
             book={book}
             currentUser={user || null} // সেশন/auth হ্যান্ডেলিং যুক্ত থাকলে পাস করবেন (যেমন: session?.user)
-            isPurchased={false}
+            isPurchased={isPurchased}
         />
     );
 }

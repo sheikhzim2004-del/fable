@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button, Chip } from "@heroui/react";
-import { Bookmark, ShoppingBag, ArrowLeft, Lock, BookOpen } from "@gravity-ui/icons";
+import { Bookmark, ArrowLeft, Lock, BookOpen, ShoppingBag } from "@gravity-ui/icons";
 import { toast } from "react-toastify";
 
 export default function EbookDetailsClient({ book, currentUser, isPurchased = false }) {
@@ -118,7 +118,7 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
                                     {book?.writerName || "Anonymous Writer"}
                                 </Link>
                                 {book?.createdAt && (
-                                    <span className="ml-2 text-xs opacity-75">
+                                    <span className="ml-2 text-xs opacity-75 suppressHydrationWarning">
                                         • Uploaded on {new Date(book.createdAt).toLocaleDateString()}
                                     </span>
                                 )}
@@ -137,24 +137,46 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
 
                         {/* Actions: Purchase and Bookmark */}
                         <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-                            <Button
-                                size="lg"
-                                color="primary"
-                                onPress={handlePurchase}
-                                isDisabled={isOwner || isSold || loadingCheckout}
-                                isLoading={loadingCheckout}
-                                className="w-full sm:flex-1 font-semibold rounded-xl"
-                                startContent={!loadingCheckout && <ShoppingBag className="size-4" />}
-                            >
-                                {isOwner
-                                    ? "Your Ebook (Cannot Buy)"
-                                    : isPurchased
-                                        ? "Already Purchased"
-                                        : isSold
-                                            ? "Sold Out"
-                                            : "Buy Now"}
-                            </Button>
+                            {/* ১. ইউজার লগইন না থাকলে লগইন পেজে পাঠানোর বাটন */}
+                            {!currentUser ? (
+                                <Link
+                                    href={`/login?redirect=/ebooks/${book?._id}`}
+                                    className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 h-12 px-6 font-semibold rounded-xl bg-brand-primary text-white shadow-md transition-all hover:opacity-90 active:scale-95 text-sm"
+                                >
+                                    <ShoppingBag className="size-4" />
+                                    <span>Login to Buy</span>
+                                </Link>
+                            ) : (
+                                /* ২. ইউজার লগইন থাকলে পেমেন্ট ফর্ম সাবমিট হবে */
+                                <form
+                                    action="/api/payment/checkout"
+                                    method="POST"
+                                    className="w-full sm:flex-1"
+                                >
+                                    <input defaultValue={book?.price} name="price" type="hidden" />
+                                    <input defaultValue={book?.title} name="title" type="hidden" />
+                                    <input defaultValue={book?._id} name="bookId" type="hidden" />
 
+                                    <Button
+                                        type="submit"
+                                        size="lg"
+                                        color="primary"
+                                        isDisabled={isOwner || isSold}
+                                        className="w-full font-semibold rounded-xl"
+                                        startContent={<ShoppingBag className="size-4" />}
+                                    >
+                                        {isOwner
+                                            ? "Your Ebook (Cannot Buy)"
+                                            : isPurchased
+                                                ? "Already Purchased"
+                                                : isSold
+                                                    ? "Sold Out"
+                                                    : "Buy Now"}
+                                    </Button>
+                                </form>
+                            )}
+
+                            {/* বুকমার্ক বাটন */}
                             <Button
                                 size="lg"
                                 variant={isBookmarked ? "solid" : "bordered"}
