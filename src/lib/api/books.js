@@ -1,8 +1,10 @@
 
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export const getBooks = async (bookId, status = "published") => {
-    const res = await fetch(`${baseUrl}/api/books?bookId=${bookId}&status=${status}`);
+export const getBooks = async (page = 1, limit = 8, status = "published") => {
+    const res = await fetch(`${baseUrl}/api/books?page=${page}&limit=${limit}&status=${status}`, {
+        cache: 'no-store'
+    });
     return res.json();
 }
 
@@ -60,19 +62,19 @@ export const deleteBook = async (id) => {
 };
 
 //all books fetch 
-export const getAllBooks = async () => {
-    try {
-        const res = await fetch(`${baseUrl}/api/books`, {
-            cache: "no-store",
-        });
+// export const getAllBooks = async () => {
+//     try {
+//         const res = await fetch(`${baseUrl}/api/books`, {
+//             cache: "no-store",
+//         });
 
-        if (!res.ok) {
-            throw new Error(`Failed to fetch books: ${res.status}`);
-        }
+//         if (!res.ok) {
+//             throw new Error(`Failed to fetch books: ${res.status}`);
+//         }
 
-        return res.json();
-    } catch (error) {
-        console.error("Error fetching all books:", error);
-        return [];
-    }
-};
+//         return res.json();
+//     } catch (error) {
+//         console.error("Error fetching all books:", error);
+//         return [];
+//     }
+// };

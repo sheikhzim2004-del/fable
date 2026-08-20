@@ -3,6 +3,9 @@
 import React, { useState, useMemo } from 'react';
 import EbookCard from '@/components/ebooks/EbookCard';
 import BookFilter from '@/components/ebooks/BookFilter';
+import EbookPagination from './EbookPagination';
+import BookCardSkeleton from '@/components/ebooks/BookCardSkeleton';
+import { getBooks } from '@/lib/api/books';
 import { SlidersVertical } from '@gravity-ui/icons';
 
 const DEFAULT_FILTERS = {
@@ -12,26 +15,53 @@ const DEFAULT_FILTERS = {
     sortBy: 'newest',
 };
 
-// সার্ভার থেকে আসা আসল বইগুলো 'initialBooks' প্রপস হিসেবে ঢুকবে
-export default function BrowseEbooksClient({ initialBooks = [] }) {
+// server theke asha data gula props hishebe ashbe
+export default function BrowseEbooksClient({
+    initialBooks = [],
+    initialTotalPages = 1,
+    currentPageNumber = 1
+}) {
+    const [books, setBooks] = useState(initialBooks);
+    const [page, setPage] = useState(currentPageNumber);
+    const [totalPages, setTotalPages] = useState(initialTotalPages);
+    const [loading, setLoading] = useState(false);
     const [filters, setFilters] = useState(DEFAULT_FILTERS);
 
-    // ডাইনামিক ফিল্টারিং ও সার্চিং লজিক
+    // page change korar handler function
+    const handlePageChange = async (newPage) => {
+        if (newPage === page || newPage < 1 || newPage > totalPages) return;
+
+        setPage(newPage);
+        setLoading(true);
+
+        try {
+            const data = await getBooks(newPage, 8);
+            setBooks(data?.books || []);
+            setTotalPages(data?.totalPages || 1);
+        } catch (err) {
+            console.error('Page data load korte problem hoyeche:', err);
+        } finally {
+            setLoading(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    // dynamic filtering ebong sorting logic
     const filteredBooks = useMemo(() => {
-        return initialBooks
+        return books
             .filter((book) => {
-                // ১. সার্চ ফিল্টার (টাইটেল এবং ডেসক্রিপশন মিলিয়ে দেখবে)
+                // 1. search filter (title ebong description check korbe)
                 const matchSearch =
                     filters.search.trim() === '' ||
                     book.title?.toLowerCase().includes(filters.search.toLowerCase()) ||
                     book.description?.toLowerCase().includes(filters.search.toLowerCase());
 
-                // ২. জেনার ফিল্টার
+                // 2. genre filter
                 const matchGenre =
                     filters.genre === 'all' ||
                     book.genre?.toLowerCase() === filters.genre.toLowerCase();
 
-                // ৩. প্রাইস ফিল্টার (টাকা অনুযায়ী ফিল্টার)
+                // 3. price filter (takar poriman check korbe)
                 const bookPrice = Number(book.price) || 0;
                 let matchPrice = true;
                 if (filters.priceRange === 'free') matchPrice = bookPrice === 0;
@@ -42,7 +72,7 @@ export default function BrowseEbooksClient({ initialBooks = [] }) {
                 return matchSearch && matchGenre && matchPrice;
             })
             .sort((a, b) => {
-                // ৪. সর্টিং লজিক
+                // 4. sorting logic
                 if (filters.sortBy === 'newest') return new Date(b.createdAt) - new Date(a.createdAt);
                 if (filters.sortBy === 'oldest') return new Date(a.createdAt) - new Date(b.createdAt);
                 if (filters.sortBy === 'price-low') return (Number(a.price) || 0) - (Number(b.price) || 0);
@@ -50,53 +80,69 @@ export default function BrowseEbooksClient({ initialBooks = [] }) {
                 if (filters.sortBy === 'title-asc') return (a.title || '').localeCompare(b.title || '');
                 return 0;
             });
-    }, [initialBooks, filters]);
+    }, [books, filters]);
 
     const handleReset = () => setFilters(DEFAULT_FILTERS);
 
     return (
         <>
-            {/* সার্চ ও ফিল্টার বার */}
+            {/* search ebong filter bar */}
             <BookFilter
                 filters={filters}
                 setFilters={setFilters}
                 onReset={handleReset}
             />
 
-            {/* কতগুলো বই পাওয়া গেল তার কাউন্টার */}
+            {/* koyta boi pawa gelo tar counter */}
             <div className="mb-4 flex items-center justify-between text-xs sm:text-sm text-[var(--text-secondary)]">
                 <span>
                     Showing <strong className="text-[var(--text-primary)]">{filteredBooks.length}</strong> of{' '}
-                    {initialBooks.length} ebooks
+                    {books.length} ebooks on this page
                 </span>
             </div>
 
-            {/* রেসপনসিভ গ্রিড: মোবাইলে ২টা, ট্যাবে ৩টা, ডেক্সটপে ৪টা */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                {filteredBooks.length > 0 ? (
-                    filteredBooks.map((book) => (
-                        <EbookCard key={book._id} book={book} isPurchased={false} />
-                    ))
-                ) : (
-                    /* সার্চ করে কিছু না পাওয়া গেলে */
-                    <div className="col-span-full py-16 flex flex-col items-center justify-center text-center bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-6">
-                        <SlidersVertical className="w-12 h-12 text-[var(--text-secondary)]/40 mb-3" />
-                        <h3 className="text-base sm:text-lg font-bold text-[var(--text-primary)]">
-                            No matching ebooks found
-                        </h3>
-                        <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-sm">
-                            Try adjusting your search terms or clearing your selected filters.
-                        </p>
-                        <button
-                            type="button"
-                            onClick={handleReset}
-                            className="mt-4 text-xs font-semibold text-[var(--primary)] hover:underline"
-                        >
-                            Reset all filters
-                        </button>
-                    </div>
-                )}
-            </div>
+            {/* loading thakle skeleton dekhabe, na hole books grid */}
+            {loading ? (
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    {Array.from({ length: 8 }).map((_, idx) => (
+                        <BookCardSkeleton key={idx} />
+                    ))}
+                </div>
+            ) : (
+                /* responsive grid: mobile e 2ta, tab e 3ta, desktop e 4ta */
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    {filteredBooks.length > 0 ? (
+                        filteredBooks.map((book) => (
+                            <EbookCard key={book._id} book={book} isPurchased={false} />
+                        ))
+                    ) : (
+                        /* search kore kichu na pawa gele empty state */
+                        <div className="col-span-full py-16 flex flex-col items-center justify-center text-center bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl p-6">
+                            <SlidersVertical className="w-12 h-12 text-[var(--text-secondary)]/40 mb-3" />
+                            <h3 className="text-base sm:text-lg font-bold text-[var(--text-primary)]">
+                                No matching ebooks found
+                            </h3>
+                            <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1 max-w-sm">
+                                Try adjusting your search terms or clearing your selected filters.
+                            </p>
+                            <button
+                                type="button"
+                                onClick={handleReset}
+                                className="mt-4 text-xs font-semibold text-[var(--primary)] hover:underline"
+                            >
+                                Reset all filters
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* pagination controls */}
+            <EbookPagination
+                page={page}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </>
     );
 }

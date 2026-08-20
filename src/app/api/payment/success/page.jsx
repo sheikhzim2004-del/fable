@@ -57,7 +57,7 @@ export default async function Success({ searchParams }) {
                                 href="mailto:orders@example.com"
                                 className="font-medium text-brand-primary hover:underline"
                             >
-                                orders@example.com
+                                sheikhzim2004@gmail.com
                             </a>
                         </span>
                     </div>
