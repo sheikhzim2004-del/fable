@@ -91,3 +91,15 @@ export const updateBookStatus = async (id, status) => {
 
     return await res.json();
 };
+
+
+export const getWriterSales = async (writerId) => {
+    try {
+        const res = await fetch(`${baseUrl}/payments/writer/${writerId}`, { cache: "no-store" });
+        if (!res.ok) throw new Error(`Failed: ${res.status}`);
+        return res.json();
+    } catch (error) {
+        console.error(error);
+        return { sales: [], totalSales: 0, count: 0 };
+    }
+};

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { CircleCheck } from "@gravity-ui/icons";
 
-const PublishedEbooks = () => {
+const PublishedEbooks = ({count}) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -15,7 +15,7 @@ const PublishedEbooks = () => {
                 <div>
                     <p className="text-sm text-text-secondary">Published</p>
 
-                    <h2 className="mt-2 text-3xl font-bold text-text-primary">18</h2>
+                    <h2 className="mt-2 text-3xl font-bold text-text-primary">{count}</h2>
                 </div>
 
                 <div className="rounded-xl bg-accent-success/15 p-3">

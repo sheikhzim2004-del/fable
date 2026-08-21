@@ -92,6 +92,7 @@ export default function AddEbookForm() {
             );
 
             const data = await res.json();
+            console.log("imgbb response:", data);
 
             if (!data.success) {
                 throw new Error("Image upload failed");
@@ -103,6 +104,8 @@ export default function AddEbookForm() {
             }));
         } catch (error) {
             console.log(error);
+            toast.error("Image upload failed. Please try again.");
+            setFormData(prev => ({ ...prev, coverImage: "" }));
         } finally {
             setImageUploading(false);
         }
@@ -110,10 +113,15 @@ export default function AddEbookForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
 
-        if ( !formData.title || !formData.writerName || !formData.description || !formData.price || !formData.genre || !formData.coverImage) {
+
+        if (!formData.title || !formData.writerName || !formData.description || !formData.price || !formData.genre || !formData.coverImage) {
             toast.error("Please fill all fields");
+            return;
+        }
+
+        if (formData.coverImage.startsWith("blob:")) {
+            toast.error("Cover image upload not completed. Please re-upload.");
             return;
         }
 
@@ -138,7 +146,7 @@ export default function AddEbookForm() {
             toast.success("Book posted successfully!")
             setFormData(initialFormData);
         }
-        
+
     };
 
     return (

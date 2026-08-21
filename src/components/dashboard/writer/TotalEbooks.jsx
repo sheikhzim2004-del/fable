@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Book } from "@gravity-ui/icons";
 
-const TotalEbooks = () => {
+const TotalEbooks = ({count}) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -14,7 +14,7 @@ const TotalEbooks = () => {
                 <div>
                     <p className="text-sm text-text-secondary">Total Ebooks</p>
 
-                    <h2 className="mt-2 text-3xl font-bold text-text-primary">24</h2>
+                    <h2 className="mt-2 text-3xl font-bold text-text-primary">{count}</h2>
                 </div>
 
                 <div className="rounded-xl bg-brand-primary/15 p-3">

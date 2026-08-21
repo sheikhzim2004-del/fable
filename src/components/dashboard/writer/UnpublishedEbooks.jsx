@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { CircleInfo } from "@gravity-ui/icons";
 
-const UnpublishedEbooks = () => {
+const UnpublishedEbooks = ({count}) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -15,7 +15,7 @@ const UnpublishedEbooks = () => {
                 <div>
                     <p className="text-sm text-text-secondary">Unpublished</p>
 
-                    <h2 className="mt-2 text-3xl font-bold text-text-primary">6</h2>
+                    <h2 className="mt-2 text-3xl font-bold text-text-primary">{count}</h2>
                 </div>
 
                 <div className="rounded-xl bg-secondary/15 p-3">

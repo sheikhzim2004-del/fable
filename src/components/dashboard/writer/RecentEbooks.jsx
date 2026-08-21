@@ -2,25 +2,25 @@
 
 import { motion } from "framer-motion";
 
-const books = [
-    {
-        title: "The Lost World",
-        price: "$10",
-        status: "Published",
-    },
-    {
-        title: "Dark Moon",
-        price: "$8",
-        status: "Draft",
-    },
-    {
-        title: "Ocean Story",
-        price: "$12",
-        status: "Published",
-    },
-];
+// const books = [
+//     {
+//         title: "The Lost World",
+//         price: "$10",
+//         status: "Published",
+//     },
+//     {
+//         title: "Dark Moon",
+//         price: "$8",
+//         status: "Draft",
+//     },
+//     {
+//         title: "Ocean Story",
+//         price: "$12",
+//         status: "Published",
+//     },
+// ];
 
-const RecentEbooks = () => {
+const RecentEbooks = ({books}) => {
     return (
         <motion.div
             initial={{ opacity: 0 }}

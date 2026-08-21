@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { CreditCard } from "@gravity-ui/icons";
 
-const TotalSales = () => {
+const TotalSales = ({amount}) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -16,7 +16,7 @@ const TotalSales = () => {
                     <p className="text-sm text-text-secondary">Total Sales</p>
 
                     <h2 className="mt-2 text-3xl font-bold text-text-primary">
-                        $1240
+                        ${amount}
                     </h2>
                 </div>
 
