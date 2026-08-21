@@ -19,7 +19,7 @@ export default async function BrowseEbooksPage({ searchParams }) {
 
     try {
         // backend theke page ebong limit onushare data fetch kora hocche
-        const data = await getBooks(initialPage, limit);
+        const data = await getBooks(initialPage, limit, "published");
         books = data?.books || [];
         totalPages = data?.totalPages || 1;
     } catch (err) {

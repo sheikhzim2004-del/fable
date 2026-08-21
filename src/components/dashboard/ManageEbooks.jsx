@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Pencil, TrashBin, CircleCheck, CircleXmark } from "@gravity-ui/icons";
 import { Table, Chip, Button, AlertDialog } from "@heroui/react";
 import Link from "next/link";
-import { deleteBook } from "@/lib/api/books";
+import { deleteBook, updateBookStatus } from "@/lib/api/books";
 import { toast } from "react-toastify";
 
 const columns = [
@@ -25,15 +25,26 @@ export default function ManageEbooks({ books: initialBooks }) {
   const [selectedBook, setSelectedBook] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
-  // Status toggle handler
-  const handleTogglePublish = (id) => {
-    setBooks((prev) =>
-      prev.map((book) => {
-        if (book._id !== id) return book;
-        const newStatus = book.status === "published" ? "unpublished" : "published";
-        return { ...book, status: newStatus };
-      })
-    );
+  // status toggle handler (database e update korbe ebong state update korbe)
+  const handleTogglePublish = async (id) => {
+    const targetBook = books.find((book) => book._id === id);
+    if (!targetBook) return;
+
+    const newStatus = targetBook.status === "published" ? "unpublished" : "published";
+
+    try {
+      // api call kora
+      await updateBookStatus(id, newStatus);
+
+      // UI state update kora
+      setBooks((prev) =>
+        prev.map((book) =>
+          book._id === id ? { ...book, status: newStatus } : book
+        )
+      );
+    } catch (error) {
+      console.error("Status update failed:", error);
+    }
   };
 
   // Delete book handler

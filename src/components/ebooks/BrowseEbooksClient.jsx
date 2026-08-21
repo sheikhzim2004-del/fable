@@ -35,7 +35,7 @@ export default function BrowseEbooksClient({
         setLoading(true);
 
         try {
-            const data = await getBooks(newPage, 8);
+            const data = await getBooks(newPage, 8, "published");
             setBooks(data?.books || []);
             setTotalPages(data?.totalPages || 1);
         } catch (err) {

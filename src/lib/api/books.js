@@ -1,12 +1,24 @@
 
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export const getBooks = async (page = 1, limit = 8, status = "published") => {
-    const res = await fetch(`${baseUrl}/api/books?page=${page}&limit=${limit}&status=${status}`, {
+// boi fetch korar universal function (browse page ebong dashboard 2 jagay e kaj korbe)
+export const getBooks = async (page = 1, limit = 8, status = "") => {
+    let url = `${baseUrl}/api/books?page=${page}&limit=${limit}`;
+
+    // status pathale query te add hobe, na pathale shob boi ashbe
+    if (status) {
+        url += `&status=${status}`;
+    }
+
+    const res = await fetch(url, {
         cache: 'no-store'
     });
-    return res.json();
-}
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch books');
+    }
+    return await res.json();
+};
 
 
 export const getBooksByWriter = async (writerId) => {
@@ -61,20 +73,21 @@ export const deleteBook = async (id) => {
     }
 };
 
-//all books fetch 
-// export const getAllBooks = async () => {
-//     try {
-//         const res = await fetch(`${baseUrl}/api/books`, {
-//             cache: "no-store",
-//         });
+// boi er status (published/unpublished) update korar helper function
+export const updateBookStatus = async (id, status) => {
+    const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
 
-//         if (!res.ok) {
-//             throw new Error(`Failed to fetch books: ${res.status}`);
-//         }
+    const res = await fetch(`${baseUrl}/api/books/${id}/status`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+    });
 
-//         return res.json();
-//     } catch (error) {
-//         console.error("Error fetching all books:", error);
-//         return [];
-//     }
-// };
+    if (!res.ok) {
+        throw new Error("Failed to update status");
+    }
+
+    return await res.json();
+};
