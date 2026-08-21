@@ -36,7 +36,7 @@ const DashboardSidebar = () => {
             { icon: Bookmark, label: "Bookmarks", href: "/dashboard/writer/bookmarks" },
             { icon: ChartColumn, label: "Sales History", href: "/dashboard/writer/sales" },
             { icon: Person, label: "Profile", href: "/dashboard/writer/profile"},
-            { icon: Gear, label: "Settings", href: "/dashboard/writer/settings"},
+            { icon: Gear, label: "Settings", href: "#"},
         ],
 
         readerNavItems: [
