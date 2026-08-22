@@ -19,13 +19,20 @@ const DEFAULT_FILTERS = {
 export default function BrowseEbooksClient({
     initialBooks = [],
     initialTotalPages = 1,
-    currentPageNumber = 1
+    currentPageNumber = 1,
+    initialGenre = "all"
 }) {
     const [books, setBooks] = useState(initialBooks);
     const [page, setPage] = useState(currentPageNumber);
     const [totalPages, setTotalPages] = useState(initialTotalPages);
     const [loading, setLoading] = useState(false);
-    const [filters, setFilters] = useState(DEFAULT_FILTERS);
+
+    // Initial state-e URL-er genre set hocche
+    const [filters, setFilters] = useState(() => ({
+        ...DEFAULT_FILTERS,
+        genre: initialGenre !== "all" ? initialGenre : DEFAULT_FILTERS.genre
+    }));
+
 
     // page change korar handler function
     const handlePageChange = async (newPage) => {

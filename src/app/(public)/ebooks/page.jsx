@@ -9,13 +9,16 @@ import { CircleExclamation } from '@gravity-ui/icons';
 export const dynamic = 'force-dynamic';
 
 export default async function BrowseEbooksPage({ searchParams }) {
+
     const params = await searchParams;
     const initialPage = parseInt(params?.page) || 1;
+    const initialGenre = params?.genre || 'all';
     const limit = 8;
 
     let books = [];
     let totalPages = 1;
     let error = null;
+
 
     try {
         // backend theke page ebong limit onushare data fetch kora hocche
@@ -61,9 +64,11 @@ export default async function BrowseEbooksPage({ searchParams }) {
                         }
                     >
                         <BrowseEbooksClient
+                            key={`${initialGenre}-${initialPage}`}
                             initialBooks={books}
                             initialTotalPages={totalPages}
                             currentPageNumber={initialPage}
+                            initialGenre={initialGenre}
                         />
                     </Suspense>
                 )}
