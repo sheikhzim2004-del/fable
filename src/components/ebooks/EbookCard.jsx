@@ -2,12 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Card, Button, Chip } from "@heroui/react";
-import { Eye, Lock } from "@gravity-ui/icons";
-import { toast } from "react-toastify";
-import { useAuth } from "@/hooks/useAuth";
+import { Card, Chip } from "@heroui/react";
+import { Eye } from "@gravity-ui/icons";
 
 export default function EbookCard({ book, isSold = false }) {
 
@@ -34,7 +31,7 @@ export default function EbookCard({ book, isSold = false }) {
         <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -6 }}
+            // whileHover={{ y: -6 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="h-full"
         >
@@ -119,9 +116,9 @@ export default function EbookCard({ book, isSold = false }) {
 
                     <Link
                         href={`/ebooks/${book?._id}`}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-primary/90  hover:bg-brand-primary text-white transition-all shadow-sm"
+                        className="flex items-center gap-1.5 px-6 py-3 rounded text-xs font-semibold bg-brand-primary/90  hover:bg-brand-primary text-white transition-all shadow-sm"
                     >
-                        <Eye className="size-3.5" />
+                        <Eye className="size-5" />
                         <span>View Details</span>
                     </Link>
                 </Card.Footer>

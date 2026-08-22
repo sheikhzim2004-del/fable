@@ -103,3 +103,24 @@ export const getWriterSales = async (writerId) => {
         return { sales: [], totalSales: 0, count: 0 };
     }
 };
+
+//latest booklist for feature sectlion
+export const getFeaturedEbooks = async () => {
+    try {
+        const res = await fetch(`${baseUrl}/api/books`, {
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            console.error(`Failed to fetch ebooks. Status: ${res.status}`);
+            return [];
+        }
+
+        const data = await res.json();
+
+        return data.slice(0, 6);
+    } catch (error) {
+        console.error("Error fetching featured ebooks:", error);
+        return [];
+    }
+};
