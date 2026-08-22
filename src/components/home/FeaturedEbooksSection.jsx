@@ -16,14 +16,15 @@ export default function FeaturedEbooksSection({ books = [] }) {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.1,
+                staggerChildren: 0.2,
+                delayChildren: 0.1,
             },
         },
     };
 
     const cardVariants = {
-        hidden: { opacity: 0, y: 25 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
+        hidden: { opacity: 0, y: 40, scale: 0.95 },
+        visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } },
     };
 
     return (
@@ -99,8 +100,16 @@ export default function FeaturedEbooksSection({ books = [] }) {
                         viewport={{ once: true, margin: "-50px" }}
                         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
                     >
-                        {booksList.map((book) => (
-                            <motion.div key={book._id || book.id} variants={cardVariants} className="h-full">
+                        {booksList.map((book, index) => (
+                            <motion.div
+                                key={book._id || book.id || index}
+                                initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                                transition={{ duration: 0.5, ease: "easeOut" }}
+                                whileHover={{ scale: 1.03, y: -5 }}
+                                className="h-full"
+                            >
                                 <EbookCard book={book} />
                             </motion.div>
                         ))}

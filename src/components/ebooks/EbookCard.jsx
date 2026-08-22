@@ -31,7 +31,7 @@ export default function EbookCard({ book, isSold = false }) {
         <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            // whileHover={{ y: -6 }}
+            whileHover={{ y: -6 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="h-full"
         >
