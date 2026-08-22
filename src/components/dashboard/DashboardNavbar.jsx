@@ -9,6 +9,7 @@ import {
     LayoutSideContentLeft,
 } from "@gravity-ui/icons";
 import { Button, Avatar, Dropdown } from "@heroui/react";
+import Link from "next/link";
 
 const DashboardNavbar = ({ onMenuClick }) => {
 
@@ -30,24 +31,15 @@ const DashboardNavbar = ({ onMenuClick }) => {
                 </Button>
 
                 <div>
-                    <h1 className="text-lg font-bold text-[var(--text-primary)]">
+                    <h1 className="hidden lg:block text-lg font-bold text-[var(--text-primary)]">
                         Welcome back 👋
                     </h1>
-                    <p className="hidden text-xs text-[var(--text-secondary)] sm:block">
+                    <p className="hidden text-xs text-[var(--text-secondary)] lg:block">
                         Manage your books and community
                     </p>
                 </div>
             </div>
 
-            {/* Center Search */}
-            <div className="hidden md:flex relative w-full max-w-md">
-                <Magnifier className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-secondary)]" />
-                <input
-                    type="text"
-                    placeholder="Search books, authors..."
-                    className="w-full rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] py-2.5 pl-10 pr-4 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--primary)] focus:ring-4 focus:ring-[var(--primary)]/10"
-                />
-            </div>
 
             {/* Right Section */}
             <div className="flex items-center gap-2">
@@ -66,22 +58,22 @@ const DashboardNavbar = ({ onMenuClick }) => {
                 {/* User Dropdown */}
                 <Dropdown>
                     <Dropdown.Trigger>
-                        <div className="flex items-center gap-3 rounded-xl px-2 py-1.5 transition hover:bg-[var(--bg-primary)] cursor-pointer">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--primary)] text-white">
-                                <Person className="h-5 w-5" />
-                            </div>
+                        <Link href={"/dashboard/writer/profile"}>
+                            <div className="flex items-center gap-3 rounded-xl px-2 py-1.5 transition hover:bg-[var(--bg-primary)] cursor-pointer">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--primary)] text-white">
+                                    <Person className="h-5 w-5" />
+                                </div>
 
-                            <div className="hidden text-left sm:block">
-                                <p className="text-sm font-semibold text-[var(--text-primary)]">
-                                    {user?.name || "User Name"}
-                                </p>
-                                <p className="text-xs text-[var(--text-secondary)]">
-                                    {user?.role || "Not Found"}
-                                </p>
+                                <div className=" text-left ">
+                                    <p className="text-sm font-semibold text-[var(--text-primary)]">
+                                        {user?.name || "User Name"}
+                                    </p>
+                                    <p className="text-xs text-[var(--text-secondary)]">
+                                        {user?.role || "Not Found"}
+                                    </p>
+                                </div>
                             </div>
-
-                            <ChevronDown className="hidden h-4 w-4 text-[var(--text-secondary)] sm:block" />
-                        </div>
+                        </Link>
                     </Dropdown.Trigger>
                 </Dropdown>
             </div>
