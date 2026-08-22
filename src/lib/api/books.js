@@ -124,3 +124,18 @@ export const getFeaturedEbooks = async () => {
         return [];
     }
 };
+
+export const getTopWriters = async () => {
+    try {
+        const res = await fetch(`${baseUrl}/api/top-writers`, {
+            cache: "no-store",
+        });
+
+        if (!res.ok) return [];
+        const data = await res.json();
+        return Array.isArray(data) ? data.slice(0, 3) : [];
+    } catch (error) {
+        console.error("Error fetching top writers:", error);
+        return [];
+    }
+};
