@@ -34,3 +34,14 @@ export const checkPurchaseStatus = async (userId, bookId) => {
         return false;
     }
 };
+
+export const getUserPurchases = async (userId) => {
+    try {
+        const res = await fetch(`${baseUrl}/payment/user/${userId}`, { cache: "no-store" });
+        if (!res.ok) throw new Error(`Failed: ${res.status}`);
+        return res.json();
+    } catch (error) {
+        console.log(error("Error fetching purchases:", error))
+        return [];
+    }
+}

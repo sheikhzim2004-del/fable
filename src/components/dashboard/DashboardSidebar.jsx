@@ -31,33 +31,30 @@ const DashboardSidebar = () => {
     const navItemsByRole = {
 
         writerNavItems: [
-            // { icon: House, label: "Dashboard", href: "/dashboard/writer" },
             { icon: House, label: "Home", href: "/" },
             { icon: BookOpen, label: "Manage Ebooks", href: "/dashboard/writer/ebooks" },
             { icon: FilePlus, label: "Add Ebook", href: "/dashboard/writer/ebooks/add" },
-            { icon: Bookmark, label: "Bookmarks", href: "/dashboard/writer/bookmarks" },
+            { icon: Bookmark, label: "Bookmarks", href: "#" },
             { icon: ChartColumn, label: "Sales History", href: "/dashboard/writer/sales" },
             { icon: Person, label: "Profile", href: "/dashboard/writer/profile" },
             { icon: Gear, label: "Settings", href: "#" },
         ],
 
         readerNavItems: [
-            // { icon: House, label: "Dashboard", href: "/dashboard/user" },
             { icon: House, label: "Home", href: "/" },
             { icon: ClockArrowRotateLeft, label: "Purchase History", href: "/dashboard/reader/purchase-history" },
             { icon: BookOpen, label: "Purchased Ebooks", href: "/dashboard/reader/purchase-book" },
-            { icon: Bookmark, label: "Bookmarks", href: "/dashboard/reader/bookmarks" },
+            { icon: Bookmark, label: "Bookmarks", href: "#" },
             { icon: Person, label: "Profile", href: "/dashboard/reader/profile" },
-            { icon: Gear, label: "Settings", href: "/dashboard/reader/settings" },
+            { icon: Gear, label: "Settings", href: "#" },
         ],
 
         adminNavItems: [
-            // { icon: House, label: "Dashboard", href: "/dashboard/admin" },
             { icon: Persons, label: "Manage Users", href: "/dashboard/admin/users" },
             { icon: BookOpen, label: "Manage Ebooks", href: "/dashboard/admin/ebooks" },
             { icon: CreditCard, label: "Transactions", href: "/dashboard/admin/transactions" },
             { icon: Person, label: "Profile", href: "/dashboard/admin/profile" },
-            { icon: Gear, label: "Settings", href: "/dashboard/admin/settings" },
+            { icon: Gear, label: "Settings", href: "#" },
         ]
     }
     const menu = navItemsByRole[`${role}NavItems`];
@@ -70,7 +67,7 @@ const DashboardSidebar = () => {
 
                 return (
                     <Link
-                        key={item.href}
+                        key={item.label}
                         href={item.href}
                         onClick={() => setOpen(false)}
                         className={`group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all ${active

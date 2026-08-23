@@ -23,13 +23,13 @@ export default function ProfileClient({ user = {} }) {
         : "August 2026";
 
     return (
-        <div className="mx-auto max-w-6xl space-y-6 mt-6">
+        <div className="mx-auto max-w-6xl space-y-6 mt-6 ">
             {/* PROFILE HEADER */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-r from-violet-600/25 via-primary/20 to-pink-600/25 p-6 shadow-2xl backdrop-blur-xl sm:p-8"
+                className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-r from-violet-600/25 via-primary/20 to-pink-600/25 p-6 shadow-2xl backdrop-blur-xl sm:p-8 mx-4"
             >
                 <div className="pointer-events-none absolute -right-12 -top-12 size-48 rounded-full bg-primary/20 blur-3xl" />
                 <div className="pointer-events-none absolute -bottom-12 -left-12 size-48 rounded-full bg-pink-500/20 blur-3xl" />
@@ -48,7 +48,7 @@ export default function ProfileClient({ user = {} }) {
 
                     {/* User info */}
                     <div className="min-w-0 flex-1 space-y-2.5">
-                        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:justify-start">
+                        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:justify-start ">
                             <h1 className="break-words text-2xl font-extrabold tracking-tight text-text-primary sm:text-4xl">
                                 {displayName}
                             </h1>
