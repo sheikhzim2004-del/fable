@@ -43,9 +43,9 @@ const DashboardSidebar = () => {
 
         readerNavItems: [
             // { icon: House, label: "Dashboard", href: "/dashboard/user" },
-            { icon: Magnifier, label: "Explore Books", href: "/dashboard/reader/explore" },
-            { icon: BookOpen, label: "Purchased Ebooks", href: "/dashboard/reader/purchased" },
+            { icon: House, label: "Home", href: "/" },
             { icon: ClockArrowRotateLeft, label: "Purchase History", href: "/dashboard/reader/purchase-history" },
+            { icon: BookOpen, label: "Purchased Ebooks", href: "/dashboard/reader/purchase-book" },
             { icon: Bookmark, label: "Bookmarks", href: "/dashboard/reader/bookmarks" },
             { icon: Person, label: "Profile", href: "/dashboard/reader/profile" },
             { icon: Gear, label: "Settings", href: "/dashboard/reader/settings" },
@@ -97,7 +97,7 @@ const DashboardSidebar = () => {
                 {/* Desktop Sidebar */}
                 <aside className="hidden lg:flex w-64 shrink-0 min-h-screen flex-col border-r border-[var(--border-color)] bg-[var(--bg-secondary)] p-5">
                     {/* Logo */}
-                    <Link href="/dashboard/writer" className="flex items-center gap-3 mb-8">
+                    <Link href={role === "writer" ? "/dashboard/writer" : role === "admin" ? "/dashboard/admin" :   "/dashboard/reader"} className="flex items-center gap-3 mb-8">
                         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--primary)] text-white">
                             <BookOpen className="h-6 w-6" />
                         </div>
