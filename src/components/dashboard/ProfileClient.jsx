@@ -10,7 +10,7 @@ import {
     CircleCheck,
 } from "@gravity-ui/icons";
 
-export default function WriterProfileClient({ user = {}, stats = {} }) {
+export default function ProfileClient({ user = {} }) {
     const displayName = user?.name || user?.email?.split("@")[0] || "Author";
     const initialLetter = displayName.charAt(0).toUpperCase();
 
@@ -23,7 +23,7 @@ export default function WriterProfileClient({ user = {}, stats = {} }) {
         : "August 2026";
 
     return (
-        <div className="mx-auto max-w-6xl space-y-6">
+        <div className="mx-auto max-w-6xl space-y-6 mt-6">
             {/* PROFILE HEADER */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
