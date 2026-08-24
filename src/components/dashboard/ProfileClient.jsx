@@ -138,7 +138,7 @@ export default function ProfileClient({ user = {} }) {
                             </p>
                             <div className="flex flex-col gap-2 rounded-xl border border-border-color bg-bg-primary p-3 sm:flex-row sm:items-center sm:justify-between">
                                 <span className="font-semibold capitalize text-text-primary">
-                                    {user?.role || "Writer"}
+                                    {user?.role || "User"}
                                 </span>
                                 <span className="text-[11px] font-medium text-emerald-400">
                                     Publishing Permission Granted

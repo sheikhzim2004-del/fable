@@ -1,9 +1,14 @@
+import ProfileClient from '@/components/dashboard/ProfileClient';
+import { getUserSession } from '@/lib/session';
 import React from 'react';
 
-const adminProfilePage = () => {
+const adminProfilePage = async() => {
+
+    const user = await getUserSession()
+
     return (
         <div>
-            <h1>Admin Profile Page</h1>
+            <ProfileClient user={user}></ProfileClient>
         </div>
     );
 };
