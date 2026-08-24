@@ -140,3 +140,23 @@ export const getTopWriters = async () => {
     }
 };
 
+
+//get all users like admin reader writer
+export const getAllUsers = async () => {
+    try {
+        const res = await fetch(`${baseUrl}/users`, { cache: "no-store" });
+
+        if(!res.ok) {
+            console.error(`Failed to fetch users. Status: ${res.status}`);
+            return [];
+        } 
+
+        const data = await res.json()
+        console.log("Users fetched successfully:", data);
+        return data;
+
+    } catch (error) {
+        console.error("Network or Fetch Error:", error.message);
+        return [];
+    }
+}

@@ -1,9 +1,15 @@
+import ManageUsersTable from '@/components/dashboard/admin/ManageUsersTable';
+import { getAllUsers } from '@/lib/api/books';
 import React from 'react';
 
-const adminManageUsersPage = () => {
+const adminManageUsersPage = async() => {
+
+    const users = await getAllUsers()
+    console.log("initialUsers", users)
+
     return (
         <div>
-            <h1>Admin Manage Users Page</h1>
+            <ManageUsersTable initialUsers={users}></ManageUsersTable>
         </div>
     );
 };
