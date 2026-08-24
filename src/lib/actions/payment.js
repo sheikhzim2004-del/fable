@@ -41,7 +41,7 @@ export const getUserPurchases = async (userId) => {
         if (!res.ok) throw new Error(`Failed: ${res.status}`);
         return res.json();
     } catch (error) {
-        console.log(error("Error fetching purchases:", error))
+        console.error("Error fetching purchases:", error)
         return [];
     }
 }

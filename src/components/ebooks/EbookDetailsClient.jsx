@@ -156,6 +156,7 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
                                     <input defaultValue={book?.price} name="price" type="hidden" />
                                     <input defaultValue={book?.title} name="title" type="hidden" />
                                     <input defaultValue={book?._id} name="bookId" type="hidden" />
+                                    <input defaultValue={book?.writerName || book?.writer || book?.author || "Unknown Writer"} name="writer" type="hidden" />
 
                                     <Button
                                         type="submit"

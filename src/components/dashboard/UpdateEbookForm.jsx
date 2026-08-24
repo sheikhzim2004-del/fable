@@ -50,7 +50,7 @@ export default function UpdateEbookForm({ book }) {
 
     const [formData, setFormData] = useState({
         title: book.title || "",
-        writerName: book.writerName || "",
+        writerName: book.writerName || book?.writer || book?.author || "",
         description: book.description || "",
         price: book.price || "",
         genre: book.genre || "",

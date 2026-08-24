@@ -15,6 +15,7 @@ export async function POST(request) {
         const price = formData.get('price');
         const title = formData.get('title');
         const bookId = formData.get('bookId');
+        const writer = formData.get('writer')
         const userId = user.id;
 
 
@@ -38,13 +39,15 @@ export async function POST(request) {
                 userId,
                 bookId,
                 title,
-                price
+                price,
+                writer
                 // price: 200
             },
             mode: 'payment',
             success_url: `${origin}/api/payment/success?session_id={CHECKOUT_SESSION_ID}`,
         });
-        console.log("session", session)
+        console.log("Success Metadata:", session.metadata)
+        // console.log("session", session)
         return NextResponse.redirect(session.url, 303)
     } catch (err) {
         return NextResponse.json(
