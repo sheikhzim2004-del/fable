@@ -116,14 +116,13 @@ export default function PurchasedCardStack({ items = [] }) {
 
                                 {/* অ্যাকশন বাটন / লিংক */}
                                 <div className="mt-5 pt-3 border-t border-[var(--border-color)] flex items-center gap-3">
-                                    <Button
-                                        as={Link}
+                                    <Link
                                         href={`/ebooks/${book?.bookId || book?._id}`}
                                         className="w-full flex-1 rounded-xl bg-[var(--primary)] font-semibold text-white shadow-md hover:opacity-90 flex items-center justify-center gap-2 py-2.5"
                                     >
                                         <span>View Details</span>
                                         <ArrowUpRightFromSquare className="h-3.5 w-3.5" />
-                                    </Button>
+                                    </Link>
                                 </div>
                             </motion.div>
                         );

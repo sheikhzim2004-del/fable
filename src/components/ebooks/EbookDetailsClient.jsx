@@ -13,10 +13,12 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
     const router = useRouter();
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [loadingCheckout, setLoadingCheckout] = useState(false);
+    const isFree = Number(book?.price) === 0 || book?.price === "Free" || !book?.price;
 
 
     // কন্ডিশনাল চেকিং
     const isOwner = currentUser?.id && currentUser?.id === book?.writerId;
+    const hasAccess = isFree || isPurchased || isOwner;
     const isSold = book?.status === "unpublished" || isPurchased;
 
     const handleBookmark = () => {
@@ -136,16 +138,25 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
                             </span>
                         </div>
 
-                        {/* Actions: Purchase and Bookmark */}
+                        {/* Actions:Read now/ Purchase and Bookmark */}
                         <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
                             {/* ১. ইউজার লগইন না থাকলে লগইন পেজে পাঠানোর বাটন */}
-                            {!currentUser ? (
+                            {hasAccess ? (<Button
+                                as={Link}
+                                href={`/ebooks/${book?._id}/read`}
+                                size="lg"
+                                color="success"
+                                className="w-full sm:flex-1 font-semibold rounded-xl text-white shadow-md"
+                                startContent={<BookOpen className="size-4" />}
+                            >
+                                {isFree ? "Read Now (Free)" : "Read Unlocked Book"}
+                            </Button>) : !currentUser ? (
                                 <Link
                                     href={`/login?redirect=/ebooks/${book?._id}`}
                                     className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 h-12 px-6 font-semibold rounded-xl bg-brand-primary text-white shadow-md transition-all hover:opacity-90 active:scale-95 text-sm"
                                 >
                                     <ShoppingBag className="size-4" />
-                                    <span>Login to Buy</span>
+                                    <span>Login to Buy (${book?.price})</span>
                                 </Link>
                             ) : (
                                 /* ২. ইউজার লগইন থাকলে পেমেন্ট ফর্ম সাবমিট হবে */
@@ -167,8 +178,8 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
                                         color="primary"
                                         isDisabled={isOwner || isSold}
                                         className="w-full font-semibold rounded-xl"
-                                        startContent={<ShoppingBag className="size-4" />}
                                     >
+                                        <ShoppingBag className="size-4" />
                                         {isOwner
                                             ? "Your Ebook (Cannot Buy)"
                                             : isPurchased
@@ -199,7 +210,7 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
 
                             <div className="relative">
                                 {/* বই কেনা থাকলে অথবা রাইটার নিজে হলে পুরো লেখা দেখাবে */}
-                                {isPurchased || isOwner ? (
+                                {isPurchased || isOwner || isFree ? (
                                     <div className="text-sm leading-relaxed text-text-secondary whitespace-pre-line">
                                         {book?.description}
                                     </div>
@@ -218,7 +229,7 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
                         </div>
 
                         {/* লকড মেসেজ ব্যানার */}
-                        {!(isPurchased || isOwner) && (
+                        {!(isPurchased || isOwner || isFree) && (
                             <div className="mt-4 p-4 rounded-xl border border-dashed border-border-main bg-bg-primary flex items-center justify-between gap-3">
                                 <div className="flex items-center gap-3">
                                     <Lock className="size-5 text-brand-primary shrink-0" />
