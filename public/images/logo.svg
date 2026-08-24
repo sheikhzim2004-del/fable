@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="48" height="48" fill="none">
+  <defs>
+    <!-- Left Page Gradient -->
+    <linearGradient id="fableGradLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+
+    <!-- Right Page Gradient -->
+    <linearGradient id="fableGradRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EC4899" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+
+    <!-- Floating / Turning Page (Sharing Accent) -->
+    <linearGradient id="fableGradPage" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F43F5E" />
+      <stop offset="100%" stop-color="#FBBF24" />
+    </linearGradient>
+
+    <!-- Magic Story Sparkle Gradient -->
+    <linearGradient id="sparkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="100%" stop-color="#F97316" />
+    </linearGradient>
+
+    <!-- Soft Glow Effect -->
+    <filter id="fableGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#8B5CF6" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#fableGlow)">
+    <!-- Left Wing / Page -->
+    <path d="M58 88C44 76 26 76 14 80C13 80.3 12 79.5 12 78.4V34.5C12 33.6 12.7 32.8 13.6 32.6C26 30 43 31 58 45V88Z" fill="url(#fableGradLeft)" />
+
+    <!-- Floating E-Book Layer (Signifying Digital Sharing) -->
+    <path d="M58 86C68 74 84 66 100 68C101.1 68.1 102 67.2 102 66.1V24.5C102 23.6 101.3 22.8 100.4 22.7C83 20.5 68 29 58 43V86Z" fill="url(#fableGradPage)" opacity="0.9" />
+
+    <!-- Right Wing / Page -->
+    <path d="M62 88C76 76 94 76 106 80C107 80.3 108 79.5 108 78.4V34.5C108 33.6 107.3 32.8 106.4 32.6C94 30 77 31 62 45V88Z" fill="url(#fableGradRight)" />
+
+    <!-- Spine Accent -->
+    <path d="M60 44V89" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+
+    <!-- Storytelling Sparkle (Fable Spark) -->
+    <path d="M60 16L62.2 22.8C62.7 24.3 63.9 25.4 65.4 25.9L72.2 28.1L65.4 30.3C63.9 30.8 62.7 32 62.2 33.4L60 40.2L57.8 33.4C57.3 32 56.1 30.8 54.6 30.3L47.8 28.1L54.6 25.9C56.1 25.4 57.3 24.3 57.8 22.8L60 16Z" fill="url(#sparkGrad)" />
+  </g>
+</svg>

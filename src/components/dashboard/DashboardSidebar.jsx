@@ -50,8 +50,9 @@ const DashboardSidebar = () => {
         ],
 
         adminNavItems: [
-            { icon: Persons, label: "Manage Users", href: "/dashboard/admin/users" },
-            { icon: BookOpen, label: "Manage Ebooks", href: "/dashboard/admin/ebooks" },
+            { icon: House, label: "Home", href: "/" },
+            { icon: Persons, label: "Manage Users", href: "/dashboard/admin/manage-users" },
+            { icon: BookOpen, label: "Manage Ebooks", href: "/dashboard/admin/manage-ebooks" },
             { icon: CreditCard, label: "Transactions", href: "/dashboard/admin/transactions" },
             { icon: Person, label: "Profile", href: "/dashboard/admin/profile" },
             { icon: Gear, label: "Settings", href: "#" },

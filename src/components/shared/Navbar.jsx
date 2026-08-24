@@ -25,6 +25,7 @@ export default function Navbar() {
     // console.log("Session data in Navbar:", session, "Is session pending:", isPending);
     const user = session?.user;
     const role = user?.role;
+    console.log("role user", role)
     
 
     const dashboardRoutes = role === "admin" ? "/dashboard/admin" : role === "writer" ? "/dashboard/writer" : role === "reader" ? "/dashboard/reader" : "/login";

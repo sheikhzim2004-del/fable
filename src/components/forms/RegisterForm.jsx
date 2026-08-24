@@ -123,7 +123,7 @@ export default function RegisterForm() {
                 email: email.trim(),
                 password,
                 role: role,
-                plan: "free", // Default plan for new users
+                // plan: "free", // Default plan for new users
             });
 
             // ------------------------------------------------------
@@ -581,7 +581,7 @@ export default function RegisterForm() {
                                                 Writer
                                             </Radio.Content>
                                         </Radio>
-                                        <Radio value="teams">
+                                        <Radio value="admin">
                                             <Radio.Content>
                                                 <Radio.Control>
                                                     <Radio.Indicator />
