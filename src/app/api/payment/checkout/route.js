@@ -15,7 +15,9 @@ export async function POST(request) {
         const price = formData.get('price');
         const title = formData.get('title');
         const bookId = formData.get('bookId');
-        const writer = formData.get('writer')
+        const writer = formData.get('writer');
+        const coverImage = formData.get('coverImage');
+        const genre = formData.get('genre');
         const userId = user.id;
 
 
@@ -40,7 +42,9 @@ export async function POST(request) {
                 bookId,
                 title,
                 price,
-                writer
+                writer,
+                coverImage, 
+                genre
                 // price: 200
             },
             mode: 'payment',

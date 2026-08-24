@@ -14,6 +14,7 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [loadingCheckout, setLoadingCheckout] = useState(false);
 
+
     // কন্ডিশনাল চেকিং
     const isOwner = currentUser?.id && currentUser?.id === book?.writerId;
     const isSold = book?.status === "unpublished" || isPurchased;
@@ -40,7 +41,7 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
         }
 
         try {
-            setLoadingCheckout(true);
+            loadingCheckout(true);
             const res = await fetch("/api/payment/checkout", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -156,6 +157,8 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
                                     <input defaultValue={book?.price} name="price" type="hidden" />
                                     <input defaultValue={book?.title} name="title" type="hidden" />
                                     <input defaultValue={book?._id} name="bookId" type="hidden" />
+                                    <input defaultValue={book?.coverImage} name="coverImage" type="hidden"></input>
+                                    <input defaultValue={book?.genre} name="genre" type="hidden"></input>
                                     <input defaultValue={book?.writerName || book?.writer || book?.author || "Unknown Writer"} name="writer" type="hidden" />
 
                                     <Button
