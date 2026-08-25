@@ -1,11 +1,13 @@
-import React from 'react';
+import TransactionsTable from "@/components/dashboard/admin/TransactionsTable";
+import { getAllTransactions } from "@/lib/actions/payment";
 
-const adminTransactionPage = () => {
+export default async function AdminTransactionsPage() {
+    const transactions =await getAllTransactions()
+    console.log("transaction payment", transactions)
+
     return (
         <div>
-            <h1>Admin Transaction page</h1>
+            <TransactionsTable initialTransactions={transactions} />
         </div>
     );
-};
-
-export default adminTransactionPage;
+}

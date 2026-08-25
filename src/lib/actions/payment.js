@@ -45,3 +45,18 @@ export const getUserPurchases = async (userId) => {
         return [];
     }
 }
+
+
+//all payment collection list 
+export const getAllTransactions = async () => {
+    try{
+        const res = await fetch(`${baseUrl}/payment`,{cache: "no-store"});
+        if(!res.ok){
+            throw new Error(`Failed: ${res.status}`)
+        }
+        return res.json();
+    }catch(error){
+        console.error("Eroor fetching payment collection", error)
+        return [];
+    }
+}
