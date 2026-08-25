@@ -47,7 +47,7 @@ export default function ManageUsersTable({ initialUsers = [] }) {
     const handleConfirmRoleChange = async () => {
         if (!selectedUser) return;
 
-        
+
         // TODO: Call your update role API here (e.g., await updateUserRole(selectedUser._id, newRole))
         const result = await updateUserRole(selectedUser._id, newRole)
         console.log(`Update user ${selectedUser._id} to role: ${newRole}`);
@@ -74,22 +74,22 @@ export default function ManageUsersTable({ initialUsers = [] }) {
         setSelectedUser(null);
     };
 
-    // নামের অক্ষরের ওপর ভিত্তি করে ইউনিক গ্রেডিয়েন্ট ব্যাকগ্রাউন্ড সেট করার ফাংশন
+    const getInitial = (name) => name?.trim()?.[0]?.toUpperCase() || "U";
+
     const getAvatarGradient = (name = "") => {
         const gradients = [
-            "from-purple-500 to-indigo-600 text-white",
-            "from-cyan-500 to-blue-600 text-white",
-            "from-emerald-500 to-teal-600 text-white",
-            "from-amber-500 to-orange-600 text-white",
-            "from-rose-500 to-pink-600 text-white",
-            "from-fuchsia-500 to-pink-500 text-white",
+            "from-purple-500 to-indigo-600",
+            "from-cyan-500 to-blue-600",
+            "from-emerald-500 to-teal-600",
+            "from-amber-500 to-orange-600",
+            "from-rose-500 to-pink-600",
+            "from-fuchsia-500 to-pink-500",
         ];
         let hash = 0;
         for (let i = 0; i < name.length; i++) {
             hash = name.charCodeAt(i) + ((hash << 5) - hash);
         }
-        const index = Math.abs(hash) % gradients.length;
-        return gradients[index];
+        return gradients[Math.abs(hash) % gradients.length];
     };
 
     return (
@@ -138,14 +138,15 @@ export default function ManageUsersTable({ initialUsers = [] }) {
                                             {/* Name & Avatar */}
                                             <Table.Cell className="py-4 px-4">
                                                 <div className="flex items-center gap-3">
-                                                    <Avatar
-                                                        src={user?.image || user?.avatar}
-                                                        name={user?.name ? user.name[0].toUpperCase() : "U"}
-                                                        className={`size-9 ring-1 ring-border-main text-xs font-bold shadow-sm ${!user?.image && !user?.avatar
-                                                                ? `bg-gradient-to-tr ${getAvatarGradient(user?.name || "U")}`
-                                                                : ""
-                                                            }`}
-                                                    />
+                                                    {user?.image || user?.avatar ? (
+                                                        <Avatar src={user.image || user.avatar} className="size-9 ring-1 ring-border-main" />
+                                                    ) : (
+                                                        <div
+                                                            className={`flex size-9 items-center justify-center rounded-full bg-gradient-to-tr text-xs font-bold text-white shadow-sm ring-1 ring-border-main ${getAvatarGradient(user?.name || "U")}`}
+                                                        >
+                                                            {getInitial(user?.name)}
+                                                        </div>
+                                                    )}
                                                     <div>
                                                         <p className="text-sm font-semibold text-text-primary">
                                                             {user?.name || "Unnamed User"}
