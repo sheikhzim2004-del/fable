@@ -51,6 +51,8 @@ export const getBookById = async (id) => {
 };
 
 
+
+
 //id wise book delete fetch function
 export const deleteBook = async (id) => {
     try {
@@ -73,9 +75,23 @@ export const deleteBook = async (id) => {
     }
 };
 
+//id wise user delete fetch function
+export const deleteUser = async (id) => {
+    try{
+        const res = await fetch(`${baseUrl}/user${id}`,{
+            method: "DELETE",
+        })
+        if(!res.ok){
+            throw new Error(`Server error ${res.status}`)
+        }
+        return res.json();
+    }catch(error){
+        error: error.message || "Something went wrong"
+    }
+}
+
 // boi er status (published/unpublished) update korar helper function
 export const updateBookStatus = async (id, status) => {
-    const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
 
     const res = await fetch(`${baseUrl}/api/books/${id}/status`, {
         method: "PATCH",
@@ -91,6 +107,21 @@ export const updateBookStatus = async (id, status) => {
 
     return await res.json();
 };
+
+//users list er user er role update
+export const updateUserRole = async (id, role) => {
+    const res = await fetch(`${baseUrl}/user/${id}`, {
+        method: "PATCH",
+        headers: {
+            "content-type" : "application/json"
+        },
+        body: JSON.stringify({role})
+    })
+    if(!res.ok){
+        throw new Error("Fatiled to update status")
+    }
+    return await res.json();
+}
 
 
 export const getWriterSales = async (writerId) => {

@@ -10,6 +10,7 @@ import {
     Persons,
     TriangleExclamation
 } from "@gravity-ui/icons";
+import { deleteUser, updateUserRole } from "@/lib/api/books";
 
 // রোল অনুযায়ী চিপের কালার ভ্যারিয়েন্ট
 const roleColorMap = {
@@ -46,7 +47,9 @@ export default function ManageUsersTable({ initialUsers = [] }) {
     const handleConfirmRoleChange = async () => {
         if (!selectedUser) return;
 
+        
         // TODO: Call your update role API here (e.g., await updateUserRole(selectedUser._id, newRole))
+        const result = await updateUserRole(selectedUser._id, newRole)
         console.log(`Update user ${selectedUser._id} to role: ${newRole}`);
 
         // লোকাল স্টেট আপডেট (ডেমো)
@@ -62,6 +65,7 @@ export default function ManageUsersTable({ initialUsers = [] }) {
         if (!selectedUser) return;
 
         // TODO: Call your delete user API here (e.g., await deleteUser(selectedUser._id))
+        const result = await deleteUser(selectedUser._id)
         console.log(`Delete user ${selectedUser._id}`);
 
         // লোকাল স্টেট থেকে রিমুভ (ডেমো)
@@ -117,7 +121,7 @@ export default function ManageUsersTable({ initialUsers = [] }) {
                 <Table className="min-w-full">
                     <Table.ScrollContainer>
                         <Table.Content aria-label="Users management table" className="w-full">
-                            <Table.Header isRowHeader className="border-b border-border-main bg-bg-primary/50 text-xs font-bold uppercase text-text-secondary">
+                            <Table.Header className="border-b border-border-main bg-bg-primary/50 text-xs font-bold uppercase text-text-secondary">
                                 <Table.Column isRowHeader className="py-3.5 px-4 text-left">User</Table.Column>
                                 <Table.Column className="py-3.5 px-4 text-left">Email</Table.Column>
                                 <Table.Column className="py-3.5 px-4 text-left">Current Role</Table.Column>
