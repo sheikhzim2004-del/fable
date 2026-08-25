@@ -78,7 +78,7 @@ export const deleteBook = async (id) => {
 //id wise user delete fetch function
 export const deleteUser = async (id) => {
     try{
-        const res = await fetch(`${baseUrl}/user${id}`,{
+        const res = await fetch(`${baseUrl}/user/${id}`,{
             method: "DELETE",
         })
         if(!res.ok){
@@ -86,7 +86,7 @@ export const deleteUser = async (id) => {
         }
         return res.json();
     }catch(error){
-        error: error.message || "Something went wrong"
+        return error.message || "Something went wrong"
     }
 }
 

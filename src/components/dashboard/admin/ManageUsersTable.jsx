@@ -48,8 +48,8 @@ export default function ManageUsersTable({ initialUsers = [] }) {
         if (!selectedUser) return;
 
 
-        // TODO: Call your update role API here (e.g., await updateUserRole(selectedUser._id, newRole))
-        const result = await updateUserRole(selectedUser._id, newRole)
+        // update role API here (e.g., await updateUserRole(selectedUser._id, newRole))
+        await updateUserRole(selectedUser._id, newRole)
         console.log(`Update user ${selectedUser._id} to role: ${newRole}`);
 
         // লোকাল স্টেট আপডেট (ডেমো)
@@ -64,8 +64,8 @@ export default function ManageUsersTable({ initialUsers = [] }) {
     const handleConfirmDelete = async () => {
         if (!selectedUser) return;
 
-        // TODO: Call your delete user API here (e.g., await deleteUser(selectedUser._id))
-        const result = await deleteUser(selectedUser._id)
+        // delete user API here (e.g., await deleteUser(selectedUser._id))
+        await deleteUser(selectedUser._id)
         console.log(`Delete user ${selectedUser._id}`);
 
         // লোকাল স্টেট থেকে রিমুভ (ডেমো)
