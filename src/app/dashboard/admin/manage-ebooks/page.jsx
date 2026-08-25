@@ -1,11 +1,14 @@
-import React from 'react';
+import ManageEbooksTable from "@/components/dashboard/admin/ManageEbooksTable";
+import { getBooks } from "@/lib/api/books";
 
-const adminManageEbooksPage = () => {
+export default async function AdminManageEbooksPage() {
+
+    const { books } = await getBooks(1, 200, "")
+    console.log("all book list get in the console", books)
+
     return (
         <div>
-            <h1>Admin manage Ebooks page</h1>
+            <ManageEbooksTable initialBooks={books} />
         </div>
     );
-};
-
-export default adminManageEbooksPage;
+}
