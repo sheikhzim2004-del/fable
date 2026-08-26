@@ -47,7 +47,7 @@ export default function ManageEbooksTable({ initialBooks = [] }) {
         const updatedStatus = selectedBook.status === "published" ? "unpublished" : "published";
 
         try {
-            await updateBookStatus(selectedBook._id, updateBookStatus)
+            await updateBookStatus(selectedBook._id, updatedStatus)
             console.log(`Toggle book status ${selectedBook._id} to ${updatedStatus}`);
 
             // Local state optimistic update
@@ -250,7 +250,7 @@ export default function ManageEbooksTable({ initialBooks = [] }) {
                                 <strong className="text-text-primary uppercase">
                                     {selectedBook?.status === "published" ? "Unpublish" : "Publish"}
                                 </strong>{" "}
-                                the ebook titled <strong className="text-text-primary">"{selectedBook?.title}"</strong>?
+                                the ebook titled <strong className="text-text-primary">{selectedBook?.title}</strong>?
                             </p>
 
                             <div className="flex items-center justify-end gap-3 pt-2">
