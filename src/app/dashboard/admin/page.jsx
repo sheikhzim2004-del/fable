@@ -1,4 +1,5 @@
 import AdminDashboardAnalyticsOverview from "@/components/dashboard/admin/AdminDashboardAnalyticsOverview";
+import MonthlySalesBarChart from "@/components/dashboard/admin/MonthlySalesBarChart";
 import StraightAnglePieChart from "@/components/dashboard/admin/StraightAnglePieChart";
 import { getAllTransactions } from "@/lib/actions/payment";
 import { getAllUsers, getBooks } from "@/lib/api/books";
@@ -29,7 +30,7 @@ export default async function AdminDashboardPage() {
         for (let i = 0; i < books?.length; i++) {
             const book = books[i];
             const genre = book?.genre || "Uncategorized";
-            genreCounts[genre] = genreCounts[genre] || 0 + 1;
+            genreCounts[genre] = (genreCounts[genre] || 0) + 1;
         }
     }
 
@@ -41,6 +42,39 @@ export default async function AdminDashboardPage() {
         genrePieData.push({
             name: genreName,
             value: genreCounts[genreName]
+        });
+    }
+
+    //2. bar chart er month list jar upor depend kore kon mashe koto sell fixed kora hobe
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthlySalesMap = {};
+
+    for (let i = 0; i < months.length; i++) {
+        monthlySalesMap[months[i]] = 0;
+    }
+
+    // 3. transaction loop kore mash onujayi mot selse add kora
+    if (Array.isArray(totalSoldBooks)) {
+        for (let i = 0; i < totalSoldBooks.length; i++) {
+            const tx = totalSoldBooks[i];
+
+            // transaction date theke masher name ber kora(createdAt or paymentDate)
+            const date = new Date(tx?.createdAt || tx?.date || Date.now());
+            const monthIndex = date.getMonth(); // 0 to 11
+            const monthName = months[monthIndex];
+
+            //mot bikrir taka ba shongkha add (price / amount)
+            const saleAmount = Number(tx?.price || tx?.amount || 1);
+            monthlySalesMap[monthName] = (monthlySalesMap[monthName] || 0) + saleAmount;
+        }
+    }
+
+    // 4. Recharts-er jonno final array creat
+    const monthlySalesData = [];
+    for (let i = 0; i < months.length; i++) {
+        monthlySalesData.push({
+            name: months[i],
+            sales: monthlySalesMap[months[i]]
         });
     }
 
@@ -60,6 +94,7 @@ export default async function AdminDashboardPage() {
             <div className="p-6 max-w-7xl mx-auto">
                 <AdminDashboardAnalyticsOverview analyticsData={analyticsData} />
                 <StraightAnglePieChart chartData={genrePieData}></StraightAnglePieChart>
+                <MonthlySalesBarChart monthlySalesData={monthlySalesData}></MonthlySalesBarChart>
             </div>
         </div>
     );
