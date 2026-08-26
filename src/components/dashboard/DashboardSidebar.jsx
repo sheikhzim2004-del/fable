@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import {
     BookOpen,
     Gear,
-    Magnifier,
     Person,
     LayoutSideContentLeft,
     Bookmark,
@@ -93,7 +92,7 @@ const DashboardSidebar = () => {
         <>
             <div className="">
                 {/* Desktop Sidebar */}
-                <aside className="hidden lg:flex w-64 shrink-0 min-h-screen flex-col border-r border-[var(--border-color)] bg-[var(--bg-secondary)] p-5">
+                <aside className="hidden lg:flex w-64 shrink-0 h-screen sticky top-0 flex-col border-r border-[var(--border-color)] bg-[var(--bg-secondary)] p-5 overflow-y-auto">
                     {/* Logo */}
                     <Link href={role === "writer" ? "/dashboard/writer" : role === "admin" ? "/dashboard/admin" :   "/dashboard/reader"} className="flex items-center gap-3 mb-8">
                         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--primary)] text-white">
