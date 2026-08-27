@@ -1,20 +1,18 @@
 "use client";
 
-import { useSession } from "@/lib/auth-client";
+// import { useSession } from "@/lib/auth-client";
 import {
     Bell,
-    Magnifier,
     Person,
-    ChevronDown,
     LayoutSideContentLeft,
 } from "@gravity-ui/icons";
-import { Button, Avatar, Dropdown } from "@heroui/react";
+import { Button, Dropdown } from "@heroui/react";
 import Link from "next/link";
 
-const DashboardNavbar = ({ onMenuClick }) => {
+const DashboardNavbar = ({ onMenuClick, user }) => {
 
-    const { data: session } = useSession();
-    const user = session?.user;
+    // const { data: session } = useSession();
+    // const user = session?.user;
 
     return (
         <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-[var(--border-color)] bg-[var(--bg-secondary)]/90 px-4 backdrop-blur lg:px-6">

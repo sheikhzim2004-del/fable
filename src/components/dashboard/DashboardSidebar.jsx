@@ -17,13 +17,14 @@ import {
     House,
 } from "@gravity-ui/icons";
 import { Drawer, Button } from "@heroui/react";
-import { useSession } from "@/lib/auth-client";
+// import { useSession } from "@/lib/auth-client";
 
-const DashboardSidebar = () => {
+const DashboardSidebar = ({user}) => {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
-    const { data: session } = useSession();
-    const user = session?.user;
+    // const { data: session } = useSession();
+    // const user = session?.user;
+    // const user = getUserSession();
     const role = user?.role;
 
 

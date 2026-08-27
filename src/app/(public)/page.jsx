@@ -11,6 +11,8 @@ export default async function Home() {
   console.log("top writers", topWriters)
 
 
+  
+
   return (
     <div>
       <HeroBanner></HeroBanner>
