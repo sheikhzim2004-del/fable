@@ -581,14 +581,14 @@ export default function RegisterForm() {
                                                 Writer
                                             </Radio.Content>
                                         </Radio>
-                                        <Radio value="admin">
+                                        {/* <Radio value="admin">
                                             <Radio.Content>
                                                 <Radio.Control>
                                                     <Radio.Indicator />
                                                 </Radio.Control>
                                                 Admin
                                             </Radio.Content>
-                                        </Radio>
+                                        </Radio> */}
                                     </RadioGroup>
                                 </div>
 
