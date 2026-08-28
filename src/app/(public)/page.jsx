@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import EbookGenresSection from "@/components/home/EbookGenresSection";
 import FeaturedEbooksSection from "@/components/home/FeaturedEbooksSection";
 import HeroBanner from "@/components/home/HeroBanner";

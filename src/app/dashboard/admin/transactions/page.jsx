@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import TransactionsTable from "@/components/dashboard/admin/TransactionsTable";
 import { getAllTransactions } from "@/lib/actions/payment";
 

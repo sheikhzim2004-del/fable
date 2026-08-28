@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import AdminDashboardAnalyticsOverview from "@/components/dashboard/admin/AdminDashboardAnalyticsOverview";
 import MonthlySalesBarChart from "@/components/dashboard/admin/MonthlySalesBarChart";
 import StraightAnglePieChart from "@/components/dashboard/admin/StraightAnglePieChart";

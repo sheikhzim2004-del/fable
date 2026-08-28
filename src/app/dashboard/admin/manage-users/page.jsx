@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import ManageUsersTable from '@/components/dashboard/admin/ManageUsersTable';
 import { getAllUsers } from '@/lib/api/books';
 import React from 'react';
