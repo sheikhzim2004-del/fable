@@ -13,6 +13,7 @@ import { Bars, Xmark } from "@gravity-ui/icons";
 import Image from "next/image";
 import { signOut, useSession } from "@/lib/auth-client";
 import { toast } from "react-toastify";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 
 
@@ -26,7 +27,7 @@ export default function Navbar() {
     const user = session?.user;
     const role = user?.role;
     console.log("role user", role)
-    
+
 
     const dashboardRoutes = role === "admin" ? "/dashboard/admin" : role === "writer" ? "/dashboard/writer" : role === "reader" ? "/dashboard/reader" : "/login";
     // নেভিগেশন লিংকগুলোর তালিকা — এখান থেকে লিংক যোগ/বাদ দেওয়া যাবে
@@ -114,6 +115,7 @@ export default function Navbar() {
                     ))}
                 </div>
 
+                <ThemeSwitcher></ThemeSwitcher>
                 {/* ===== ডানপাশের Login/Register বাটন (static, কোনো auth state নেই) ===== */}
                 <div className="hidden items-center gap-3 md:flex">
                     {user ?

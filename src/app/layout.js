@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import { ToastContainer } from "react-toastify";
+import { Providers } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,11 +25,13 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <Navbar></Navbar>
-        {children}
-        <Footer></Footer>
+        <Providers>
+          <Navbar></Navbar>
+          {children}
+          <Footer></Footer>
         <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -38,6 +41,7 @@ export default function RootLayout({ children }) {
           pauseOnHover
           theme="dark"
         />
+        </Providers>
       </body>
     </html>
   );
