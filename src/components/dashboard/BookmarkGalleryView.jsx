@@ -103,16 +103,13 @@ export default function BookmarkGalleryView({ currentUser }) {
                 <p className="text-sm text-text-secondary max-w-sm mb-6 leading-relaxed">
                     Explore our collection and click the bookmark icon on any ebook to save it here for later reading.
                 </p>
-                <Button
-                    as={Link}
+                <Link
                     href="/ebooks"
-                    color="primary"
-                    variant="solid"
-                    className="font-medium rounded-xl text-white shadow-md"
-                    endContent={<ArrowRight className="size-4" />}
+                    className="inline-flex items-center justify-center gap-2 font-medium rounded-xl text-white shadow-md bg-brand-primary hover:bg-brand-primary/90 transition-colors px-5 py-2.5 text-sm"
                 >
+                    <ArrowRight className="size-4" />
                     Explore Ebooks
-                </Button>
+                </Link>
             </motion.div>
         );
     }
