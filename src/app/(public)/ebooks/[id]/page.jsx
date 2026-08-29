@@ -38,7 +38,7 @@ export default async function EbookDetailsPage({ params }) {
     return (
         <EbookDetailsClient
             book={book}
-            currentUser={user || null} // সেশন/auth হ্যান্ডেলিং যুক্ত থাকলে পাস করবেন (যেমন: session?.user)
+            currentUser={user || null} 
             isPurchased={isPurchased}
         />
     );

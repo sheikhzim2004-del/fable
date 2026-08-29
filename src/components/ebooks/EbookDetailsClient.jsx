@@ -1,33 +1,65 @@
 // src/components/ebooks/EbookDetailsClient.jsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button, Chip } from "@heroui/react";
 import { Bookmark, ArrowLeft, Lock, BookOpen, ShoppingBag } from "@gravity-ui/icons";
 import { toast } from "react-toastify";
+import { getBookmarkedBooks, toggleBookmarkAction } from "@/lib/api/bookmarks";
 
 export default function EbookDetailsClient({ book, currentUser, isPurchased = false }) {
     const router = useRouter();
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [loadingBookmark, setLoadingBookmark] = useState(false);
     const [loadingCheckout, setLoadingCheckout] = useState(false);
     const isFree = Number(book?.price) === 0 || book?.price === "Free" || !book?.price;
 
 
-    // কন্ডিশনাল চেকিং
+    // Conditional Checking
     const isOwner = currentUser?.id && currentUser?.id === book?.writerId;
     const hasAccess = isFree || isPurchased || isOwner;
     const isSold = book?.status === "unpublished" || isPurchased;
 
-    const handleBookmark = () => {
-        if (!currentUser) {
+
+    // Page load hole database theke check korbe boiti age theke bookmark kora kina
+    useEffect(() => {
+        const checkBookmarkStatus = async () => {
+            if (!currentUser?.email || !book?._id) return;
+            try {
+                const list = await getBookmarkedBooks(currentUser.email);
+                const exists = list.some((item) => item._id === book._id);
+                setIsBookmarked(exists);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        checkBookmarkStatus();
+    }, [currentUser?.email, book?._id]);
+
+
+    const handleBookmark = async() => {
+        if (!currentUser?.email) {
             toast.warn("Please log in to bookmark this ebook!");
             return;
         }
-        setIsBookmarked((prev) => !prev);
-        toast.success(!isBookmarked ? "Added to your bookmarks!" : "Removed from bookmarks.");
+
+
+
+        setLoadingBookmark(true);
+        try {
+            const res = await toggleBookmarkAction(currentUser.email, book._id);
+            if (res) {
+                setIsBookmarked(res.bookmarked);
+                toast.success(res.bookmarked ? "Added to your bookmarks!" : "Removed from bookmarks.");
+            }
+        } catch (error) {
+            toast.error("Something went wrong!");
+        } finally {
+            setLoadingBookmark(false);
+        }
     };
 
     const handlePurchase = async () => {
@@ -195,8 +227,9 @@ export default function EbookDetailsClient({ book, currentUser, isPurchased = fa
                             <Button
                                 size="lg"
                                 variant={isBookmarked ? "solid" : "bordered"}
-                                color={isBookmarked ? "primary" : "default"}
+                                color={isBookmarked ? "warning" : "default"}
                                 onPress={handleBookmark}
+                                isLoading={loadingBookmark}
                                 className="w-full sm:w-auto font-medium rounded-xl border-border-main"
                                 startContent={<Bookmark className="size-4" />}
                             >
