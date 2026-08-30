@@ -14,10 +14,10 @@ Traditional ebook access is often limited to bookstores or libraries. Fable demo
 - 📖 Browse ebooks with search, genre/price filters, sorting & pagination
 - 💳 Stripe-powered ebook purchase & writer verification payment
 - 🖼️ Cover image & profile picture uploads via imgBB
-- 🔖 Bookmark/Wishlist system for saved ebooks <!--TODO: -->
+- 🔖 Bookmark/Wishlist system for saved ebooks 
 - 📊 Admin analytics dashboard with sales & genre charts
 - 🎬 Smooth Framer Motion animations (hero fade-in, staggered card reveals)
-- 🌗 Dark mode by default with light mode toggle (persisted) <!--TODO: -->
+- 🌗 Dark mode by default with light mode toggle (persisted) 
 - 📱 Fully responsive design across mobile, tablet, and desktop
 - 🚨 Custom 404 page, error boundaries, and toast notifications
 - ⏳ Global loading spinner & skeleton loaders

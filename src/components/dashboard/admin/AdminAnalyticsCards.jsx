@@ -40,7 +40,7 @@ export function StatCard({ icon: Icon, label, value, prefix, trend, accent, inde
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.08 * index, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ y: -4 }}
-            className="relative overflow-hidden rounded-2xl border p-5 bg-card bg-[#131B2E] border-slate-800"
+            className="relative overflow-hidden rounded-2xl border p-5 bg-card bg-bg-secondary border-border-main"
         >
             {/* spine accent */}
             <span
@@ -100,7 +100,7 @@ export function RevenueHeroCard({ totalRevenue: totalRevenue, avgOrder = 24.60, 
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="relative overflow-hidden rounded-2xl border p-6 md:p-7 bg-card bg-[#131B2E] border-slate-800"
+            className="relative overflow-hidden rounded-2xl border p-6 md:p-7 bg-card bg-bg-secondary border-border-main"
         >
             <span
                 className="absolute left-0 top-0 h-full w-1"

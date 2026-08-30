@@ -83,11 +83,11 @@ export default function WriterSalesClient({
                     <div className="flex items-center justify-between">
                         <span className="text-xs font-semibold uppercase text-emerald-400">Total Revenue</span>
                         <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-500/20 text-lg font-bold text-emerald-400">
-                            ৳
+                            $
                         </div>
                     </div>
                     <h2 className="mt-1 text-3xl font-black text-text-primary sm:text-4xl">
-                        ৳ {totalRevenue.toLocaleString()}
+                        $ {totalRevenue.toLocaleString()}
                     </h2>
                     <p className="mt-1 text-xs text-text-secondary">Gross lifetime income</p>
                 </motion.div>
@@ -125,7 +125,7 @@ export default function WriterSalesClient({
                         </div>
                     </div>
                     <h2 className="mt-1 text-3xl font-black text-text-primary sm:text-4xl">
-                        ৳ {avgOrderValue}
+                        $ {avgOrderValue}
                     </h2>
                     <p className="mt-1 text-xs text-text-secondary">Average revenue per transaction</p>
                 </motion.div>
@@ -206,7 +206,7 @@ export default function WriterSalesClient({
                                             </Table.Cell>
                                             <Table.Cell className="px-5 py-4 text-right">
                                                 <span className="text-base font-extrabold text-emerald-400">
-                                                    +৳ {Number(item.price || 0).toLocaleString()}
+                                                    +$ {Number(item.price || 0).toLocaleString()}
                                                 </span>
                                             </Table.Cell>
                                         </Table.Row>

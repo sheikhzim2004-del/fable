@@ -39,7 +39,7 @@ const RecentEbooks = ({books}) => {
                     >
                         <div>
                             <p className="text-text-primary font-medium">{book.title}</p>
-                            <p className="text-sm text-text-secondary">{book.price}</p>
+                            <p className="text-sm text-text-secondary">${book.price}</p>
                         </div>
 
                         <span className="text-sm text-accent-success">

@@ -110,7 +110,7 @@ export default function EbookCard({ book, isSold = false }) {
                             Price
                         </span>
                         <span className="text-base font-extrabold text-accent-success">
-                            {Number(price) === 0 ? "Free" : `৳ ${price}`}
+                            {Number(price) === 0 ? "Free" : `$ ${price}`}
                         </span>
                     </div>
 

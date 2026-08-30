@@ -38,7 +38,7 @@ const TriangleBar = (props) => {
 
 export default function MonthlySalesBarChart({ monthlySalesData: data = [] }) {
     return (
-        <div className="w-full h-80 mt-8 rounded-2xl border p-5 bg-[#131B2E] border-slate-800 flex flex-col justify-between">
+        <div className="w-full h-80 mt-8 rounded-2xl border p-5 bg-bg-secondary border-border-main flex flex-col justify-between">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-2">
                 Monthly Sales Overview
             </h3>

@@ -117,7 +117,7 @@ export default function ManageEbooks({ books: initialBooks }) {
                         </div>
                       </Table.Cell>
                       <Table.Cell className="px-5 py-4">
-                        <span className="font-medium text-text-primary">৳ {book.price}</span>
+                        <span className="font-medium text-text-primary">$ {book.price}</span>
                       </Table.Cell>
                       <Table.Cell className="px-5 py-4">
                         <Chip color={statusColorMap[book.status]} size="sm" variant="soft" className="capitalize">

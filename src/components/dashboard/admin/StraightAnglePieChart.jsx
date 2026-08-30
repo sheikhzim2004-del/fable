@@ -10,7 +10,7 @@ export default function StraightAnglePieChart({ chartData = [] }) {
 
 
     return (
-        <div className="w-full mt-8 h-80 rounded-2xl border p-5 bg-[#131B2E] border-slate-800 flex flex-col items-center justify-center">
+        <div className="w-full mt-8 h-80 rounded-2xl border p-5 bg-bg-secondary border-border-main flex flex-col items-center justify-center">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-2 self-start">
                 Genre Distribution
             </h3>
