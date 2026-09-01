@@ -5,13 +5,14 @@ import TotalSales from "@/components/dashboard/writer/TotalSales";
 import RecentEbooks from "@/components/dashboard/writer/RecentEbooks";
 import RecentSales from "@/components/dashboard/writer/RecentSales";
 import { getBooksByWriter, getWriterSales } from "@/lib/api/books";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+
+import { getUserSession } from "@/lib/session";
 
 export default async function WriterDashboard() {
 
-  const session = await auth.api.getSession({ headers: await headers() });
-  const writerId = session?.user?.id;
+  const currentUser = await getUserSession()
+  const writerId = currentUser?.id;
+
 
   const books = await getBooksByWriter(writerId);
   const { sales, totalSales } = await getWriterSales(writerId);

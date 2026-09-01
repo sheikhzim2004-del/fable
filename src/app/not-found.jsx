@@ -24,7 +24,7 @@ export default function NotFoundPage() {
     <div>
 
       <div
-        className="fable-sans relative min-h-[650px] w-full overflow-hidden flex items-center justify-center px-6 py-20 transition-colors duration-300"
+        className="fable-sans h-screen relative min-h-[650px] w-full overflow-hidden flex items-center justify-center px-6 py-20 transition-colors duration-300"
         style={{ background: 'var(--bg-primary)' }}
       >
         <div

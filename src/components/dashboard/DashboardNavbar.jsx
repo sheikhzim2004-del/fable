@@ -1,6 +1,5 @@
 "use client";
 
-// import { useSession } from "@/lib/auth-client";
 import {
     Bell,
     Person,
@@ -11,8 +10,6 @@ import Link from "next/link";
 
 const DashboardNavbar = ({ onMenuClick, user }) => {
 
-    // const { data: session } = useSession();
-    // const user = session?.user;
 
     return (
         <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-[var(--border-color)] bg-[var(--bg-secondary)]/90 px-4 backdrop-blur lg:px-6">

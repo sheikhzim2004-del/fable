@@ -15,6 +15,19 @@ export const payment = async (data) => {
     return result;
 }
 
+export const writerFee = async (data) => {
+    const res = await fetch(`${baseUrl}/writerFee`, {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+    return result;
+}
+
 export const checkPurchaseStatus = async (userId, bookId) => {
     if (!userId || !bookId) return false;
 
